@@ -43,11 +43,11 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
     }
 
     public JLabel getjCompletionPercent() {
-        return jCompletionPercent;
+        return CompletionPercent;
     }
 
     public void setjCompletionPercent(String jCompletionPercent) {
-        this.jCompletionPercent.setText(jCompletionPercent);
+        this.CompletionPercent.setText(jCompletionPercent);
     }
 
     public Admin_Projects() {
@@ -67,12 +67,12 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         ProjectList = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        Label1 = new javax.swing.JLabel();
         ProjectName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         CompletionBar = new javax.swing.JProgressBar();
-        jCompletionPercent = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        CompletionPercent = new javax.swing.JLabel();
+        Label6 = new javax.swing.JLabel();
         PMName = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         PMID = new javax.swing.JTextField();
@@ -105,7 +105,7 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Current Tasks");
 
-        jLabel1.setText("Project Name");
+        Label1.setText("Project Name");
 
         ProjectName.setEditable(false);
 
@@ -119,9 +119,9 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
         CompletionBar.setString("");
         CompletionBar.setStringPainted(true);
 
-        jCompletionPercent.setText("0%");
+        CompletionPercent.setText("0%");
 
-        jLabel6.setText("Project Manager Name");
+        Label6.setText("Project Manager Name");
 
         PMName.setEditable(false);
 
@@ -159,8 +159,8 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(45, 45, 45)
-                                .addComponent(jLabel1))
-                            .addComponent(jLabel6)
+                                .addComponent(Label1))
+                            .addComponent(Label6)
                             .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,7 +178,7 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(CompletionBar, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCompletionPercent)
+                                .addComponent(CompletionPercent)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -191,11 +191,11 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(Label1)
                     .addComponent(ProjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(Label6)
                     .addComponent(PMName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -206,7 +206,7 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(CompletionBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jCompletionPercent)))
+                        .addComponent(CompletionPercent)))
                 .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,17 +221,17 @@ public class Admin_Projects extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar CompletionBar;
+    private javax.swing.JLabel CompletionPercent;
+    private javax.swing.JLabel Label1;
+    private javax.swing.JLabel Label6;
     private javax.swing.JTextField PMID;
     private javax.swing.JTextField PMName;
     private javax.swing.JList<String> ProjectList;
     private javax.swing.JTextField ProjectName;
     private javax.swing.JTable TaskTable;
-    private javax.swing.JLabel jCompletionPercent;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane7;

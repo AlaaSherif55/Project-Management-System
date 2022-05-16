@@ -308,13 +308,13 @@ public class AdminController {
         JComboBox<String> jRoleBox = add_User.getjRoleBox();
 
         public void actionPerformed(ActionEvent e) {
-            if (!add_User.getFirstName().equals("") && !add_User.getLastName().equals("") && !add_User.getjAge().equals("") && !add_User.getjUsername().equals("") && !add_User.getjPassword().equals("") && !add_User.getjSalary().equals("") && !add_User.getProjectName().equals("")) {
+            if (!add_User.getFirstName().equals("") && !add_User.getLastName().equals("") && !add_User.getAge().equals("") && !add_User.getUsername().equals("") && !add_User.getPassword().equals("") && !add_User.getSalary().equals("") && !add_User.getProjectName().equals("")) {
                 try {
 
-                    PersonModel person = new PersonModel(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getjAge()), add_User.getjUsername(), add_User.getjPassword(), jRoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getjSalary()));
+                    PersonModel person = new PersonModel(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getAge()), add_User.getUsername(), add_User.getPassword(), jRoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getSalary()));
 
                     if (jRoleBox.getSelectedItem().equals("Project Manager")) {
-                        AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getjPassword(), person.getRole(), person.getSalary());
+                        AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getPassword(), person.getRole(), person.getSalary());
                         for (PersonModel user : AdminModel.getUsers()) {
                             if (user.getUsername().equals(person.getUsername())) {
                                 AdminModel.createProject(user.getID(), add_User.getProjectName());
@@ -339,14 +339,14 @@ public class AdminController {
         protected void resetPanelData() {
             add_User.setFirstName("");
             add_User.setLastName("");
-            add_User.setjAge("");
-            add_User.setjUsername("");
-            add_User.setjPassword("");
-            add_User.setjSalary("");
+            add_User.setAge("");
+            add_User.setUsername("");
+            add_User.setPassword("");
+            add_User.setSalary("");
             jRoleBox.setSelectedIndex(0);
             ManagerName.setSelectedItem("");
             add_User.setManagerName(ManagerName);
-            add_User.setjRoleBox(jRoleBox);
+            add_User.setRoleBox(jRoleBox);
         }
     }
 
@@ -378,7 +378,7 @@ public class AdminController {
             }
 
             add_User.setManagerName(ManagerName);
-            add_User.setjRoleBox(jRoleBox);
+            add_User.setRoleBox(jRoleBox);
         }
 
     }
@@ -409,7 +409,7 @@ public class AdminController {
             }
 
             add_User.setManagerName(ManagerName);
-            add_User.setjRoleBox(jRoleBox);
+            add_User.setRoleBox(jRoleBox);
         }
 
     }
@@ -419,9 +419,9 @@ public class AdminController {
         public void actionPerformed(ActionEvent e) {
             try {
                 update_Users.resetPanelData();
-                if (!update_Users.getjSearchField().equals("")) {
+                if (!update_Users.getSearchField().equals("")) {
 
-                    PersonModel returned = AdminModel.findUserById(Integer.parseInt(update_Users.getjSearchField()));
+                    PersonModel returned = AdminModel.findUserById(Integer.parseInt(update_Users.getSearchField()));
                     if (returned.getID() > 0) {
                         setPanelDate(returned);
                     }
@@ -435,13 +435,13 @@ public class AdminController {
         }
 
         protected void setPanelDate(PersonModel person) {
-            update_Users.setjID("" + person.getID());
+            update_Users.setID("" + person.getID());
             update_Users.setFirstName(person.getName().split(" ")[0]);
             update_Users.setLastName(person.getName().split(" ")[1]);
-            update_Users.setjAge("" + person.getAge());
-            update_Users.setjUsername("" + person.getUsername());
-            update_Users.setjPassword("" + person.getPassword());
-            update_Users.setjSalary("" + person.getSalary());
+            update_Users.setAge("" + person.getAge());
+            update_Users.setUsername("" + person.getUsername());
+            update_Users.setPassword("" + person.getPassword());
+            update_Users.setSalary("" + person.getSalary());
             if (person.getRole().equals("Team Leader")) {
                 update_Users.setProjectNameActive(false);
                 update_Users.setProjectName(ProjectManagerModel.getProjectByID(person.getManagerid()).getName());
@@ -461,9 +461,9 @@ public class AdminController {
     class UpdateActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            if (!update_Users.getjID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("") && !update_Users.getjAge().equals("") && !update_Users.getjUsername().equals("") && !update_Users.getjPassword().equals("") && !update_Users.getjSalary().equals("")) {
+            if (!update_Users.getID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("") && !update_Users.getAge().equals("") && !update_Users.getUsername().equals("") && !update_Users.getPassword().equals("") && !update_Users.getSalary().equals("")) {
                 try {
-                    PersonModel person = new PersonModel(Integer.parseInt(update_Users.getjID()), update_Users.getFirstName() + " " + update_Users.getLastName(), Integer.parseInt(update_Users.getjAge()), update_Users.getjUsername(), update_Users.getjPassword(), update_Users.getRole(), Double.parseDouble(update_Users.getjSalary()));
+                    PersonModel person = new PersonModel(Integer.parseInt(update_Users.getID()), update_Users.getFirstName() + " " + update_Users.getLastName(), Integer.parseInt(update_Users.getAge()), update_Users.getUsername(), update_Users.getPassword(), update_Users.getRole(), Double.parseDouble(update_Users.getSalary()));
 
                     if (update_Users.getRole().equals("Project Manager")) {
                         AdminModel.updateProject(person.getID(), update_Users.getProjectName());
@@ -485,8 +485,8 @@ public class AdminController {
 
         public void actionPerformed(ActionEvent e) {
 
-            if (!update_Users.getjID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getjAge().equals("") && !update_Users.getjUsername().equals("") && !update_Users.getjPassword().equals("") && !update_Users.getjSalary().equals("")) {
-                AdminModel.deleteUser(Integer.parseInt(update_Users.getjSearchField()));
+            if (!update_Users.getID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getAge().equals("") && !update_Users.getUsername().equals("") && !update_Users.getPassword().equals("") && !update_Users.getSalary().equals("")) {
+                AdminModel.deleteUser(Integer.parseInt(update_Users.getSearchField()));
                 update_Users.resetPanelData();
                 JOptionPane.showMessageDialog(null, "This user has been deleted successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             }

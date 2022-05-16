@@ -9,19 +9,10 @@ public class Project {
     private int pmId;
     private int id_project;
 
-    public Project() {
-    }
-
     public Project(String name, int id_p, int pm) {
         this.name = name;
         this.id_project= id_p;
         this.pmId = pm;
-    }
-
-    public Project(String name, int ID_task, List<Integer> employeeList) {
-        this.name = name;
-        this.ID_task = ID_task;
-        this.employeeList = employeeList;
     }
 
     public String getName() {

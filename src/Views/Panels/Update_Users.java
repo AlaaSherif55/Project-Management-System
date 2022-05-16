@@ -14,73 +14,73 @@ public class Update_Users extends javax.swing.JPanel {
 
     public Update_Users() {
         initComponents();
-        jID.setEnabled(false);
+        ID.setEnabled(false);
         projectName.setEnabled(false);
         Role.setEnabled(false);
     }
 
-    public String getjAge() {
-        return jAge.getText();
+    public String getAge() {
+        return Age.getText();
     }
 
-    public void setjAge(String jAge) {
-        this.jAge.setText(jAge);
+    public void setAge(String Age) {
+        this.Age.setText(Age);
     }
 
-    public String getjID() {
-        return jID.getText();
+    public String getID() {
+        return ID.getText();
     }
 
-    public void setjID(String jID) {
-        this.jID.setText(jID);
+    public void setID(String ID) {
+        this.ID.setText(ID);
     }
 
     public String getFirstName() {
         return firstName.getText();
     }
 
-    public void setFirstName(String jName) {
-        this.firstName.setText(jName);
+    public void setFirstName(String Name) {
+        this.firstName.setText(Name);
     }
 
     public String getLastName() {
         return lastName.getText();
     }
 
-    public void setLastName(String jName) {
-        this.lastName.setText(jName);
+    public void setLastName(String Name) {
+        this.lastName.setText(Name);
     }
 
-    public String getjPassword() {
-        return jPassword.getText();
+    public String getPassword() {
+        return Password.getText();
     }
 
-    public void setjPassword(String jPassword) {
-        this.jPassword.setText(jPassword);
+    public void setPassword(String Password) {
+        this.Password.setText(Password);
     }
 
-    public String getjSalary() {
-        return jSalary.getText();
+    public String getSalary() {
+        return Salary.getText();
     }
 
-    public void setjSalary(String jSalary) {
-        this.jSalary.setText(jSalary);
+    public void setSalary(String Salary) {
+        this.Salary.setText(Salary);
     }
 
-    public String getjSearchField() {
-        return jSearchField.getText();
+    public String getSearchField() {
+        return SearchField.getText();
     }
 
-    public void setjSearchField(String jSearchField) {
-        this.jSearchField.setText(jSearchField);
+    public void setSearchField(String SearchField) {
+        this.SearchField.setText(SearchField);
     }
 
-    public String getjUsername() {
-        return jUsername.getText();
+    public String getUsername() {
+        return Username.getText();
     }
 
-    public void setjUsername(String jUsername) {
-        this.jUsername.setText(jUsername);
+    public void setUsername(String Username) {
+        this.Username.setText(Username);
     }
 
     public String getRole() {
@@ -104,13 +104,13 @@ public class Update_Users extends javax.swing.JPanel {
     }
 
     public void resetPanelData() {
-        setjID("");
+        setID("");
         setFirstName("");
         setLastName("");
-        setjAge("");
-        setjUsername("");
-        setjPassword("");
-        setjSalary("");
+        setAge("");
+        setUsername("");
+        setPassword("");
+        setSalary("");
         setProjectName("");
     }
 
@@ -132,7 +132,7 @@ public class Update_Users extends javax.swing.JPanel {
 
         jTextField7 = new javax.swing.JTextField();
         SearchButton = new javax.swing.JButton();
-        jSearchField = new javax.swing.JTextField();
+        SearchField = new javax.swing.JTextField();
         UpdateButton = new javax.swing.JButton();
         DeleteButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -140,13 +140,13 @@ public class Update_Users extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jID = new javax.swing.JTextField();
+        ID = new javax.swing.JTextField();
         firstName = new javax.swing.JTextField();
-        jUsername = new javax.swing.JTextField();
-        jSalary = new javax.swing.JTextField();
-        jPassword = new javax.swing.JPasswordField();
+        Username = new javax.swing.JTextField();
+        Salary = new javax.swing.JTextField();
+        Password = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
-        jAge = new javax.swing.JTextField();
+        Age = new javax.swing.JTextField();
         label1 = new java.awt.Label();
         lastName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -198,7 +198,7 @@ public class Update_Users extends javax.swing.JPanel {
                                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jID, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(ID, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(firstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(25, 25, 25)
@@ -212,17 +212,17 @@ public class Update_Users extends javax.swing.JPanel {
                                             .addComponent(jLabel10))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jUsername)
-                                            .addComponent(jSalary)
-                                            .addComponent(jPassword)
-                                            .addComponent(jAge, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                                            .addComponent(Username)
+                                            .addComponent(Salary)
+                                            .addComponent(Password)
+                                            .addComponent(Age, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                                             .addComponent(lastName)
                                             .addComponent(projectName)
                                             .addComponent(Role, javax.swing.GroupLayout.Alignment.TRAILING))))
                                 .addGap(114, 114, 114))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(53, 53, 53)
                                 .addComponent(SearchButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -246,11 +246,11 @@ public class Update_Users extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(SearchButton)
-                            .addComponent(jSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -262,19 +262,19 @@ public class Update_Users extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jSalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
@@ -293,13 +293,17 @@ public class Update_Users extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Age;
     private javax.swing.JButton DeleteButton;
+    private javax.swing.JTextField ID;
+    private javax.swing.JPasswordField Password;
     private javax.swing.JTextField Role;
+    private javax.swing.JTextField Salary;
     private javax.swing.JButton SearchButton;
+    private javax.swing.JTextField SearchField;
     private javax.swing.JButton UpdateButton;
+    private javax.swing.JTextField Username;
     private javax.swing.JTextField firstName;
-    private javax.swing.JTextField jAge;
-    private javax.swing.JTextField jID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -309,11 +313,7 @@ public class Update_Users extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField jPassword;
-    private javax.swing.JTextField jSalary;
-    private javax.swing.JTextField jSearchField;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jUsername;
     private java.awt.Label label1;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField projectName;

@@ -46,11 +46,11 @@ public class ProjectManagerView extends javax.swing.JFrame {
     }
 
     public void AddViewProjectListener(ActionListener ActiondViewPorject) {
-        jViewTasks.addActionListener(ActiondViewPorject);
+        ViewTasks.addActionListener(ActiondViewPorject);
     }
     
     public void AddReportEmployeeListener(ActionListener ActionRequestVacations) {
-        jReportEmployee.addActionListener(ActionRequestVacations);
+        reportEmployee.addActionListener(ActionRequestVacations);
     }
 
     @SuppressWarnings("unchecked")
@@ -58,11 +58,11 @@ public class ProjectManagerView extends javax.swing.JFrame {
     private void initComponents() {
 
         Desktop = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        MenuBar = new javax.swing.JMenuBar();
         Tasks = new javax.swing.JMenu();
-        jViewTasks = new javax.swing.JMenuItem();
+        ViewTasks = new javax.swing.JMenuItem();
         Report = new javax.swing.JMenu();
-        jReportEmployee = new javax.swing.JMenuItem();
+        reportEmployee = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Project Manager Dashboard");
@@ -80,19 +80,19 @@ public class ProjectManagerView extends javax.swing.JFrame {
 
         Tasks.setText("Tasks");
 
-        jViewTasks.setText("View");
-        Tasks.add(jViewTasks);
+        ViewTasks.setText("View");
+        Tasks.add(ViewTasks);
 
-        jMenuBar1.add(Tasks);
+        MenuBar.add(Tasks);
 
         Report.setText("Report");
 
-        jReportEmployee.setText("Employee");
-        Report.add(jReportEmployee);
+        reportEmployee.setText("Employee");
+        Report.add(reportEmployee);
 
-        jMenuBar1.add(Report);
+        MenuBar.add(Report);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,10 +148,10 @@ public class ProjectManagerView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Desktop;
+    private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenu Report;
     private javax.swing.JMenu Tasks;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jReportEmployee;
-    private javax.swing.JMenuItem jViewTasks;
+    private javax.swing.JMenuItem ViewTasks;
+    private javax.swing.JMenuItem reportEmployee;
     // End of variables declaration//GEN-END:variables
 }

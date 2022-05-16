@@ -6,12 +6,6 @@ public class Penality {
     private int penalityID;
     private int employeeID;
 
-    public Penality(String reason, String penality, int employeeID) {
-        this.reason = reason;
-        this.penality = penality;
-        this.employeeID = employeeID;
-    }
-
     public Penality(String reason, String penality, int penalityID, int employeeID) {
         this.reason = reason;
         this.penality = penality;

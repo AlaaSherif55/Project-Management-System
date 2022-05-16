@@ -63,7 +63,7 @@ public class AdminRepository {
             String selectSql = "SELECT * FROM person WHERE NOT role='admin' ";
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int user_id = resultSet.getInt("id");
+                int userID = resultSet.getInt("id");
                 int age = resultSet.getInt("age");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
@@ -74,7 +74,7 @@ public class AdminRepository {
                 int managerID = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                PersonModel user = new PersonModel(user_id, name, age, username, password,
+                PersonModel user = new PersonModel(userID, name, age, username, password,
                         role, salary, managerID);
                 users.add(user);
             }

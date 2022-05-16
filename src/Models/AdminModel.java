@@ -4,12 +4,15 @@ import java.util.List;
 
 public class AdminModel extends PersonModel {
 
-    public AdminModel(int id, String name, int age, String username, String password, String role, double salary, int managerid) {
+    public AdminModel(int id, String name, int age, String username, String password,
+            String role, double salary, int managerid) {
         super(id, name, age, username, password, role, salary, managerid);
     }
     
     public static AdminModel createFromPerson(PersonModel person) {
-        return new AdminModel(person.getID(), person.getName(), person.getAge(), person.getUsername(), person.getPassword(), person.getRole(), person.getSalary(), person.getManagerid());
+        return new AdminModel(person.getID(), person.getName(), person.getAge(),
+                person.getUsername(), person.getPassword(), person.getRole(),
+                person.getSalary(), person.getManagerid());
     }
     
     public static void createProject(int managerID,String projectName){
@@ -79,7 +82,8 @@ public class AdminModel extends PersonModel {
         return AdminRepository.findUserByName(Name);
     }
 
-    public static void addProjectManager(String name, int age, String username, String password, String role, double salary) {
+    public static void addProjectManager(String name, int age, String username, String password, String role,
+            double salary) {
         AdminRepository.addProjectManager(name, age, username, password, role, salary);
     }
 

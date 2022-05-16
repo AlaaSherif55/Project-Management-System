@@ -40,28 +40,28 @@ public class AdminView extends javax.swing.JFrame {
         Desktop.add(frame);
     }
 
-    public JMenuItem getjManageUsers() {
-        return jManageUsers;
+    public JMenuItem getManageUsers() {
+        return ManageUsers;
     }
 
-    public void setjManageUsers(JMenuItem jManageUsers) {
-        this.jManageUsers = jManageUsers;
+    public void setManageUsers(JMenuItem jManageUsers) {
+        this.ManageUsers = jManageUsers;
     }
 
-    public JMenuItem getjViewProjects() {
-        return jViewProjects;
+    public JMenuItem getViewProjects() {
+        return ViewProjects;
     }
 
-    public void setjViewProjects(JMenuItem jViewProjects) {
-        this.jViewProjects = jViewProjects;
+    public void setViewProjects(JMenuItem jViewProjects) {
+        this.ViewProjects = jViewProjects;
     }
     
     public void addViewProjectsActionListener(ActionListener ActionViewProjects){
-        jViewProjects.addActionListener(ActionViewProjects);
+        ViewProjects.addActionListener(ActionViewProjects);
     }
     
     public void addManageUsersActionListener(ActionListener ActionManageUsers){
-        jManageUsers.addActionListener(ActionManageUsers);
+        ManageUsers.addActionListener(ActionManageUsers);
     }
     
     @SuppressWarnings("unchecked")
@@ -69,11 +69,11 @@ public class AdminView extends javax.swing.JFrame {
     private void initComponents() {
 
         Desktop = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        MenuBar = new javax.swing.JMenuBar();
         Projects = new javax.swing.JMenu();
-        jViewProjects = new javax.swing.JMenuItem();
+        ViewProjects = new javax.swing.JMenuItem();
         MangeUsers = new javax.swing.JMenu();
-        jManageUsers = new javax.swing.JMenuItem();
+        ManageUsers = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AdminDashboard");
@@ -91,19 +91,19 @@ public class AdminView extends javax.swing.JFrame {
 
         Projects.setText("Projects");
 
-        jViewProjects.setText("View");
-        Projects.add(jViewProjects);
+        ViewProjects.setText("View");
+        Projects.add(ViewProjects);
 
-        jMenuBar1.add(Projects);
+        MenuBar.add(Projects);
 
         MangeUsers.setText("Manage");
 
-        jManageUsers.setText("Manage Users");
-        MangeUsers.add(jManageUsers);
+        ManageUsers.setText("Manage Users");
+        MangeUsers.add(ManageUsers);
 
-        jMenuBar1.add(MangeUsers);
+        MenuBar.add(MangeUsers);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(MenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,10 +157,10 @@ public class AdminView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane Desktop;
+    private javax.swing.JMenuItem ManageUsers;
     private javax.swing.JMenu MangeUsers;
+    private javax.swing.JMenuBar MenuBar;
     private javax.swing.JMenu Projects;
-    private javax.swing.JMenuItem jManageUsers;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jViewProjects;
+    private javax.swing.JMenuItem ViewProjects;
     // End of variables declaration//GEN-END:variables
 }

@@ -24,12 +24,12 @@ public class Add_User extends javax.swing.JPanel {
         this.ManagerName = ManagerName;
     }
 
-    public String getjAge() {
-        return jAge.getText();
+    public String getAge() {
+        return Age.getText();
     }
 
-    public void setjAge(String jAge) {
-        this.jAge.setText(jAge);
+    public void setAge(String jAge) {
+        this.Age.setText(jAge);
     }
 
     public String getFirstName() {
@@ -48,36 +48,36 @@ public class Add_User extends javax.swing.JPanel {
         this.lastName.setText(jName);
     }
 
-    public String getjPassword() {
-        return jPassword.getText();
+    public String getPassword() {
+        return Password.getText();
     }
 
-    public void setjPassword(String jPassword) {
-        this.jPassword.setText(jPassword);
+    public void setPassword(String jPassword) {
+        this.Password.setText(jPassword);
     }
 
     public JComboBox<String> getjRoleBox() {
-        return jRoleBox;
+        return RoleBox;
     }
 
-    public void setjRoleBox(JComboBox<String> jRoleBox) {
-        this.jRoleBox = jRoleBox;
+    public void setRoleBox(JComboBox<String> jRoleBox) {
+        this.RoleBox = jRoleBox;
     }
 
-    public String getjSalary() {
-        return jSalary.getText();
+    public String getSalary() {
+        return Salary.getText();
     }
 
-    public void setjSalary(String jSalary) {
-        this.jSalary.setText(jSalary);
+    public void setSalary(String jSalary) {
+        this.Salary.setText(jSalary);
     }
 
-    public String getjUsername() {
-        return jUsername.getText();
+    public String getUsername() {
+        return Username.getText();
     }
 
-    public void setjUsername(String jUsername) {
-        this.jUsername.setText(jUsername);
+    public void setUsername(String jUsername) {
+        this.Username.setText(jUsername);
     }
 
     public String getProjectName() {
@@ -93,11 +93,11 @@ public class Add_User extends javax.swing.JPanel {
     }
 
     public void AddEmployeeButtonListener(ActionListener Listener) {
-        this.jButtonAdd.addActionListener(Listener);
+        this.ButtonAdd.addActionListener(Listener);
     }
 
     public void AddSelectRoleListener(ActionListener Listener) {
-        this.jRoleBox.addActionListener(Listener);
+        this.RoleBox.addActionListener(Listener);
     }
     
     public void AddSelectManagerNameListener(ActionListener Listener) {
@@ -118,14 +118,14 @@ public class Add_User extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         firstName = new javax.swing.JTextField();
-        jUsername = new javax.swing.JTextField();
-        jSalary = new javax.swing.JTextField();
+        Username = new javax.swing.JTextField();
+        Salary = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jRoleBox = new javax.swing.JComboBox<>();
-        jPassword = new javax.swing.JPasswordField();
-        jButtonAdd = new javax.swing.JButton();
+        RoleBox = new javax.swing.JComboBox<>();
+        Password = new javax.swing.JPasswordField();
+        ButtonAdd = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jAge = new javax.swing.JTextField();
+        Age = new javax.swing.JTextField();
         label1 = new java.awt.Label();
         ManagerName = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
@@ -155,9 +155,9 @@ public class Add_User extends javax.swing.JPanel {
 
         jLabel6.setText("Role");
 
-        jRoleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Employee", "Team Leader", "Project Manager", " " }));
+        RoleBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Employee", "Team Leader", "Project Manager", " " }));
 
-        jButtonAdd.setText("Add");
+        ButtonAdd.setText("Add");
 
         jLabel7.setText("Age");
 
@@ -177,7 +177,7 @@ public class Add_User extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel7)
                             .addGap(29, 29, 29)
-                            .addComponent(jAge, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Age, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(12, 12, 12)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -199,15 +199,15 @@ public class Add_User extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
-                                .addComponent(jSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(Salary, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -216,7 +216,7 @@ public class Add_User extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
-                        .addComponent(jButtonAdd))
+                        .addComponent(ButtonAdd))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel8)
@@ -226,7 +226,7 @@ public class Add_User extends javax.swing.JPanel {
                             .addGap(27, 27, 27)
                             .addComponent(jLabel6)
                             .addGap(18, 18, 18)
-                            .addComponent(jRoleBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(RoleBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -245,43 +245,47 @@ public class Add_User extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(jAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Age, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jSalary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Salary, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(projectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRoleBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RoleBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(ManagerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButtonAdd)
+                .addComponent(ButtonAdd)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Age;
+    private javax.swing.JButton ButtonAdd;
     private javax.swing.JComboBox<String> ManagerName;
+    private javax.swing.JPasswordField Password;
+    private javax.swing.JComboBox<String> RoleBox;
+    private javax.swing.JTextField Salary;
+    private javax.swing.JTextField Username;
     private javax.swing.JTextField firstName;
-    private javax.swing.JTextField jAge;
-    private javax.swing.JButton jButtonAdd;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -292,14 +296,10 @@ public class Add_User extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPasswordField jPassword;
-    private javax.swing.JComboBox<String> jRoleBox;
-    private javax.swing.JTextField jSalary;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jUsername;
     private java.awt.Label label1;
     private javax.swing.JTextField lastName;
     private javax.swing.JTextField projectName;

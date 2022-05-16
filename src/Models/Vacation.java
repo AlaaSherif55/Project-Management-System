@@ -7,14 +7,6 @@ public class Vacation {
     private int id;
     private int employeeID;
 
-    public Vacation() {
-    }
-    
-    public Vacation(Date from, Date to, int employeeID){
-        this.to = to;
-        this.from = from;
-        this.employeeID = employeeID;
-    }
     public Vacation(int id,Date from, Date to, int employeeID){
         this.to = to;
         this.from = from;

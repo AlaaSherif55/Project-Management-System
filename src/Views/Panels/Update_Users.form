@@ -37,7 +37,7 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jID" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="ID" alignment="1" max="32767" attributes="0"/>
                                           <Component id="firstName" alignment="1" min="-2" pref="206" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -54,10 +54,10 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jUsername" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jSalary" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jPassword" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jAge" alignment="1" pref="206" max="32767" attributes="0"/>
+                                          <Component id="Username" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="Salary" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="Password" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="Age" alignment="1" pref="206" max="32767" attributes="0"/>
                                           <Component id="lastName" alignment="0" max="32767" attributes="0"/>
                                           <Component id="projectName" alignment="0" max="32767" attributes="0"/>
                                           <Component id="Role" alignment="1" max="32767" attributes="0"/>
@@ -68,7 +68,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jSearchField" min="-2" pref="281" max="-2" attributes="0"/>
+                              <Component id="SearchField" min="-2" pref="281" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                               <Component id="SearchButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -100,12 +100,12 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="SearchButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSearchField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="SearchField" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jID" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ID" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -120,22 +120,22 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jAge" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Age" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Username" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Password" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jSalary" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Salary" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -165,7 +165,7 @@
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jSearchField">
+    <Component class="javax.swing.JTextField" name="SearchField">
     </Component>
     <Component class="javax.swing.JButton" name="UpdateButton">
       <Properties>
@@ -202,22 +202,22 @@
         <Property name="text" type="java.lang.String" value="Salary"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jID">
+    <Component class="javax.swing.JTextField" name="ID">
     </Component>
     <Component class="javax.swing.JTextField" name="firstName">
     </Component>
-    <Component class="javax.swing.JTextField" name="jUsername">
+    <Component class="javax.swing.JTextField" name="Username">
     </Component>
-    <Component class="javax.swing.JTextField" name="jSalary">
+    <Component class="javax.swing.JTextField" name="Salary">
     </Component>
-    <Component class="javax.swing.JPasswordField" name="jPassword">
+    <Component class="javax.swing.JPasswordField" name="Password">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
         <Property name="text" type="java.lang.String" value="Age"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jAge">
+    <Component class="javax.swing.JTextField" name="Age">
     </Component>
     <Component class="java.awt.Label" name="label1">
     </Component>

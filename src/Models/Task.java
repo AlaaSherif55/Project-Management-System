@@ -9,24 +9,6 @@ public class Task {
     private int employee_id;
   
 
-    public Task() {
-    }
-
-    public Task(int task_id, String task_name, String task_info, int employee_id) {
-        this.task_id = task_id;
-        this.task_name = task_name;
-        this.task_info = task_info;
-        this.employee_id = employee_id;
-    }
-
-    public Task(String task_name, String task_info, int employee_id) {
-        this.task_name = task_name;
-        this.task_info = task_info;
-        this.employee_id = employee_id;
-    }
-
-   
-
     public Task(int task_id, String task_name, String task_info, int employee_id,boolean task_completed ) {
         this.task_id = task_id;
         this.task_name = task_name;

@@ -4,7 +4,8 @@ import java.util.List;
 
 public class ProjectManagerModel extends PersonModel {
 
-    public ProjectManagerModel(int id, String name, int age, String username, String password, String role, double salary, int managerid) {
+    public ProjectManagerModel(int id, String name, int age, String username
+            , String password, String role, double salary, int managerid) {
         super(id, name, age, username, password, role, salary, managerid);
     }
     
@@ -13,6 +14,7 @@ public class ProjectManagerModel extends PersonModel {
                 , person.getAge(), person.getUsername(), person.getPassword()
                 , person.getRole(), person.getSalary(), person.getManagerid());
     }
+    
     public double getCompelationRate() {
         double tasks = this.getTasksForProject().size();
         if(tasks == 0) tasks=1;
@@ -23,19 +25,24 @@ public class ProjectManagerModel extends PersonModel {
     public List<Task> getTasksForProject() {
         return ProjectManagerRepository.getTasksForProject(this.getID());
     }
+   
     public List<Task> getCompletedTasksForProject() {
         return ProjectManagerRepository.getCompletedTasksForProject(this.getID());
     }
+    
     public List<EmployeeModel> getEmployees(){
         return ProjectManagerRepository.getEmployees(this.getID());
     }
+    
     public void ReportEmployee(int id_employee, String info, String name){
        ProjectManagerRepository.ReportEmployee(this.getID(), id_employee, info, name);
     }
+    
     public EmployeeModel findEmployeeById(int id) {
         return ProjectManagerRepository.findEmployeeById(id);
 
     }
+    
     public Project getProject() {
         return ProjectManagerRepository.getProjectByID(this.getID());
     }
