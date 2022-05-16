@@ -6,12 +6,8 @@ import Models.Report;
 import Models.Task;
 import Models.TeamLeaderModel;
 import Models.Vacation;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +36,8 @@ public class TeamLeaderRepository {
 
     }
 
-    public static void assignTask(String name, String info, int id_employee, int id_p) {
-        String insertSql = "INSERT INTO task (task_name,explanation,id_employee,id_project) VALUES ('" + name + "','" + info + "'," + id_employee + "," + id_p + ");";
+    public static void assignTask(String name, String info, int id_employee, int id_project) {
+        String insertSql = "INSERT INTO task (task_name,explanation,id_employee,id_project) VALUES ('" + name + "','" + info + "'," + id_employee + "," + id_project + ");";
         try{
             DatabaseQuery.executeInsert(insertSql);
         }
@@ -137,7 +133,7 @@ public class TeamLeaderRepository {
         }
     }
 
-    public static List<Report> getReportsForItsEmployees(int teamLeaderID) {
+    public static List<Report> getReportsForLeader(int teamLeaderID) {
         List<Report> ReportList = new ArrayList<>();
         String selectSql = "SELECT dbo.report.employee_id, dbo.person.id, dbo.report.details, dbo.report.reportName, dbo.report.report_id, dbo.report.id_ProjectManager, person_1.manager_ID\n"
                 + "FROM     dbo.person AS person_1 INNER JOIN\n"
@@ -192,13 +188,13 @@ public class TeamLeaderRepository {
 
     public static EmployeeModel findEmployeeById(int employeeID) {
         EmployeeModel person = null;
-        String selectSql = "SELECT * FROM person WHERE  id="+employeeID+" AND role='Employee'";
+        String selectSql = "SELECT * FROM person WHERE id="+employeeID+" AND role='Employee'";
         try{
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("id");
-                int salary = resultSet.getInt("salary");
+                double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
                 String lname = resultSet.getString("lname");
@@ -224,7 +220,7 @@ public class TeamLeaderRepository {
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("id");
-                int salary = resultSet.getInt("salary");
+                double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
                 String lname = resultSet.getString("lname");
