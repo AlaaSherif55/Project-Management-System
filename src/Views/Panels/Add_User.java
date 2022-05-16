@@ -56,7 +56,7 @@ public class Add_User extends javax.swing.JPanel {
         this.Password.setText(jPassword);
     }
 
-    public JComboBox<String> getjRoleBox() {
+    public JComboBox<String> getRoleBox() {
         return RoleBox;
     }
 

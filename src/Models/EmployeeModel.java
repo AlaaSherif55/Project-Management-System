@@ -48,10 +48,5 @@ public class EmployeeModel extends PersonModel {
     public void requestVacation(Date from, Date to) {
            EmployeeRepository.requestVacation(from, to, getID());
     }
-
-    @SuppressWarnings("empty-statement")
-    public double getWorkingHrsPerMonth(int id_employee, int month) {
-        return  EmployeeRepository.getWorkingHrsPerMonth(id_employee, month);
-    }
 }
 

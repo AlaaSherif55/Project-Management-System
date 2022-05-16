@@ -23,20 +23,16 @@ import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JProgressBar;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class AdminController {
 
-    private AdminView view;
-    private AdminModel model;
+    private AdminView adminView;
+    private AdminModel adminModel;
     private Admin_ManageUsers admin_ManageUsers;
     private Admin_Projects admin_Projects;
     private Add_User add_User;
@@ -45,144 +41,11 @@ public class AdminController {
     private JTable UsersTable;
 
     AdminController(AdminView view, AdminModel model) {
-        this.view = view;
-        this.model = model;
+        this.adminView = view;
+        this.adminModel = model;
 
-        this.view.addViewProjectsActionListener(new ViewProjectsActionListener());
-        this.view.addManageUsersActionListener(new ManageUsersActionListener());
-    }
-
-    private void initializeViewProjects() {
-        admin_Projects = new Admin_Projects();
-
-        fillViewProjectsList();
-
-        admin_Projects.AddSelectProjectListener(new ProjectListMouseListener());
-    }
-
-    private void initializeManageUsers() {
-        admin_ManageUsers = new Admin_ManageUsers();
-
-        add_User = new Add_User();
-        view_Users = new View_Users();
-        update_Users = new Update_Users();
-
-        fillAddUserManagerNameCombobox();
-        fillViewUsersTable();
-        addListenersToManageUsersPanels();
-        fillManageUsersDynamicPanel();
-
-        addListenersToManageUsersFrame();
-    }
-
-    private void addListenersToManageUsersPanels() {
-        add_User.AddSelectManagerNameListener(new AddSelectManagerNameActionListener());
-        add_User.AddEmployeeButtonListener(new AddUserButtonActionListener());
-        add_User.AddSelectRoleListener(new AddSelectRoleActionListener());
-        update_Users.AddSearchButtonListener(new SearchActionListener());
-        update_Users.DeleteButtonListener(new DeleteActionListener());
-        update_Users.UpdateButtonListener(new UpdateActionListener());
-    }
-
-    private void addListenersToManageUsersFrame() {
-        admin_ManageUsers.AddAddUserListener(new AddUserActionListener());
-        admin_ManageUsers.AddUpdateUserListener(new UpdateUserActionListener());
-        admin_ManageUsers.AddViewUsersListener(new ViewUserActionListener());
-    }
-
-    private void fillViewUsersTable() {
-        UsersTable = view_Users.getUsersTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) UsersTable.getModel();
-        List<PersonModel> users = AdminModel.getUsers();
-        tableModel.setRowCount(0);
-        Object[] rowData = new Object[7];
-        users.stream().map(user -> {
-            rowData[0] = user.getID();
-            return user;
-        }).map(user -> {
-            rowData[1] = user.getName();
-            return user;
-        }).map(user -> {
-            rowData[2] = user.getAge();
-            return user;
-        }).map(user -> {
-            rowData[3] = user.getUsername();
-            return user;
-        }).map(user -> {
-            rowData[4] = user.getPassword();
-            return user;
-        }).map(user -> {
-            rowData[5] = user.getSalary();
-            return user;
-        }).map(user -> {
-            rowData[6] = user.getRole();
-            return user;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        view_Users.setUsersTable(UsersTable);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void fillViewProjectsList() {
-        JList<String> ProjectList = admin_Projects.getProjectList();
-
-        List<Project> projects = AdminModel.getProjects();
-
-        DefaultListModel listModel = new DefaultListModel();
-
-        for (Project project : projects) {
-            listModel.addElement(project.getName());
-            ProjectList.setModel(listModel);
-        }
-
-        admin_Projects.setProjectList(ProjectList);
-    }
-
-    private void fillAddUserManagerNameCombobox() {
-        JComboBox<String> ManagerName = add_User.getManagerName();
-
-        List<PersonModel> manager = AdminModel.getUserByRole("Team Leader");
-        System.out.println(manager.get(0).getManagerid());
-        add_User.setProjectName(ProjectManagerModel.getProjectByID(manager.get(0).getManagerid()).getName());
-        for (int i = 0; i < manager.size(); i++) {
-            ManagerName.addItem(manager.get(i).getName());
-        }
-
-        add_User.setManagerName(ManagerName);
-    }
-
-    private void fillManageUsersDynamicPanel() {
-        GridBagLayout layout = new GridBagLayout();
-
-        JPanel DynamicPanel = admin_ManageUsers.getDynamicPanel();
-
-        DynamicPanel.setLayout(layout);
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-
-        DynamicPanel.add(add_User, constraints);
-        DynamicPanel.add(view_Users, constraints);
-        DynamicPanel.add(update_Users, constraints);
-
-        showAddUserPanel();
-        setManageUsersPanels();
-
-        admin_ManageUsers.setDynamicPanel(DynamicPanel);
-    }
-
-    private void initializeViewUsersDynamicPanel() {
-        JPanel DynamicPanel = admin_ManageUsers.getDynamicPanel();
-
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-
-        DynamicPanel.add(view_Users, constraints);
-        admin_ManageUsers.setDynamicPanel(DynamicPanel);
+        this.adminView.addViewProjectsActionListener(new ViewProjectsActionListener());
+        this.adminView.addManageUsersActionListener(new ManageUsersActionListener());
     }
 
     private void setManageUsersPanels() {
@@ -197,18 +60,6 @@ public class AdminController {
         update_Users.setVisible(false);
     }
 
-    private void showViewUserPanel() {
-        add_User.setVisible(false);
-        view_Users.setVisible(true);
-        update_Users.setVisible(false);
-    }
-
-    private void showUpdateUserPanel() {
-        add_User.setVisible(false);
-        view_Users.setVisible(false);
-        update_Users.setVisible(true);
-    }
-
     //MainFrames Listeners
     class ViewProjectsActionListener implements ActionListener {
 
@@ -216,9 +67,33 @@ public class AdminController {
         public void actionPerformed(ActionEvent e) {
             initializeViewProjects();
 
-            view.setAdminProjectsView(admin_Projects);
-            view.AddToDesktop(view.getAdminProjectsView());
-            view.getAdminProjectsView().setVisible(true);
+            adminView.setAdminProjectsView(admin_Projects);
+            adminView.AddToDesktop(adminView.getAdminProjectsView());
+            adminView.getAdminProjectsView().setVisible(true);
+        }
+
+        private void initializeViewProjects() {
+            admin_Projects = new Admin_Projects();
+
+            fillViewProjectsList();
+
+            admin_Projects.AddSelectProjectListener(new ProjectListMouseListener());
+        }
+
+        @SuppressWarnings("unchecked")
+        private void fillViewProjectsList() {
+            JList<String> ProjectList = admin_Projects.getProjectList();
+
+            List<Project> projects = AdminModel.getProjects();
+
+            DefaultListModel listModel = new DefaultListModel();
+
+            for (Project project : projects) {
+                listModel.addElement(project.getName());
+                ProjectList.setModel(listModel);
+            }
+
+            admin_Projects.setProjectList(ProjectList);
         }
     }
 
@@ -227,10 +102,73 @@ public class AdminController {
         public void actionPerformed(ActionEvent e) {
             initializeManageUsers();
 
-            view.setAdminManageUsersView(admin_ManageUsers);
-            view.AddToDesktop(view.getAdminManageUsersView());
-            view.getAdminManageUsersView().setVisible(true);
+            adminView.setAdminManageUsersView(admin_ManageUsers);
+            adminView.AddToDesktop(adminView.getAdminManageUsersView());
+            adminView.getAdminManageUsersView().setVisible(true);
         }
+
+        private void initializeManageUsers() {
+            admin_ManageUsers = new Admin_ManageUsers();
+
+            add_User = new Add_User();
+            view_Users = new View_Users();
+            update_Users = new Update_Users();
+
+            fillAddUserManagerNameCombobox();
+            addListenersToManageUsersPanels();
+            fillManageUsersDynamicPanel();
+
+            addListenersToManageUsersFrame();
+        }
+
+        private void fillAddUserManagerNameCombobox() {
+            JComboBox<String> ManagerName = add_User.getManagerName();
+
+            List<PersonModel> manager = AdminModel.getUserByRole("Team Leader");
+            System.out.println(manager.get(0).getManagerid());
+            add_User.setProjectName(ProjectManagerModel.getProjectByID(manager.get(0).getManagerid()).getName());
+            for (int i = 0; i < manager.size(); i++) {
+                ManagerName.addItem(manager.get(i).getName());
+            }
+
+            add_User.setManagerName(ManagerName);
+        }
+
+        private void fillManageUsersDynamicPanel() {
+            GridBagLayout layout = new GridBagLayout();
+
+            JPanel DynamicPanel = admin_ManageUsers.getDynamicPanel();
+
+            DynamicPanel.setLayout(layout);
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+
+            DynamicPanel.add(add_User, constraints);
+            DynamicPanel.add(view_Users, constraints);
+            DynamicPanel.add(update_Users, constraints);
+
+            showAddUserPanel();
+            setManageUsersPanels();
+
+            admin_ManageUsers.setDynamicPanel(DynamicPanel);
+        }
+
+        private void addListenersToManageUsersPanels() {
+            add_User.AddSelectManagerNameListener(new AddSelectManagerNameActionListener());
+            add_User.AddEmployeeButtonListener(new AddUserButtonActionListener());
+            add_User.AddSelectRoleListener(new AddSelectRoleActionListener());
+            update_Users.AddSearchButtonListener(new SearchActionListener());
+            update_Users.DeleteButtonListener(new DeleteActionListener());
+            update_Users.UpdateButtonListener(new UpdateActionListener());
+        }
+
+        private void addListenersToManageUsersFrame() {
+            admin_ManageUsers.AddAddUserListener(new AddUserActionListener());
+            admin_ManageUsers.AddUpdateUserListener(new UpdateUserActionListener());
+            admin_ManageUsers.AddViewUsersListener(new ViewUserActionListener());
+        }
+
     }
 
     //InternalFrames && Panels Listeners
@@ -251,6 +189,58 @@ public class AdminController {
 
             setManageUsersPanels();
         }
+
+        private void fillViewUsersTable() {
+            UsersTable = view_Users.getUsersTable();
+
+            DefaultTableModel tableModel = (DefaultTableModel) UsersTable.getModel();
+            List<PersonModel> users = AdminModel.getUsers();
+            tableModel.setRowCount(0);
+            Object[] rowData = new Object[7];
+            users.stream().map(user -> {
+                rowData[0] = user.getID();
+                return user;
+            }).map(user -> {
+                rowData[1] = user.getName();
+                return user;
+            }).map(user -> {
+                rowData[2] = user.getAge();
+                return user;
+            }).map(user -> {
+                rowData[3] = user.getUsername();
+                return user;
+            }).map(user -> {
+                rowData[4] = user.getPassword();
+                return user;
+            }).map(user -> {
+                rowData[5] = user.getSalary();
+                return user;
+            }).map(user -> {
+                rowData[6] = user.getRole();
+                return user;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            view_Users.setUsersTable(UsersTable);
+        }
+
+        private void initializeViewUsersDynamicPanel() {
+            JPanel DynamicPanel = admin_ManageUsers.getDynamicPanel();
+
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+
+            DynamicPanel.add(view_Users, constraints);
+            admin_ManageUsers.setDynamicPanel(DynamicPanel);
+        }
+
+        private void showViewUserPanel() {
+            add_User.setVisible(false);
+            view_Users.setVisible(true);
+            update_Users.setVisible(false);
+        }
     }
 
     class UpdateUserActionListener implements ActionListener {
@@ -258,6 +248,12 @@ public class AdminController {
         public void actionPerformed(ActionEvent e) {
             showUpdateUserPanel();
             setManageUsersPanels();
+        }
+
+        private void showUpdateUserPanel() {
+            add_User.setVisible(false);
+            view_Users.setVisible(false);
+            update_Users.setVisible(true);
         }
     }
 
@@ -267,17 +263,11 @@ public class AdminController {
             JList<String> ProjectList = admin_Projects.getProjectList();
             JTable TaskTable = admin_Projects.getTaskTable();
 
-            String tmp = (String) ProjectList.getSelectedValue();
-            Project project = AdminModel.getProjectByName(tmp);
+            String projectName = (String) ProjectList.getSelectedValue();
+            Project project = AdminModel.getProjectByName(projectName);
             List<Task> tasks = AdminModel.getTaskToOneProject(project.getName());
 
-            admin_Projects.setPMName(AdminModel.findUserById(project.getPmId()).getName());
-            admin_Projects.setPMID("" + project.getPmId());
-            admin_Projects.setProjectName(project.getName());
-
-            admin_Projects.setCompletionBar((int) AdminModel.getCompelationRateByProjectName(project.getName()));
-
-            admin_Projects.setjCompletionPercent(new DecimalFormat("#.##").format(AdminModel.getCompelationRateByProjectName(project.getName())) + "%");
+            setProjectInfo(project);
 
             DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
             tableModel.setRowCount(0);
@@ -296,24 +286,31 @@ public class AdminController {
                 tableModel.addRow(rowDate1);
             });
 
-            admin_Projects.setProjectList(ProjectList);
             admin_Projects.setTaskTable(TaskTable);
 
+        }
+        
+        private void setProjectInfo(Project project) {
+            admin_Projects.setPMName(AdminModel.findUserById(project.getPmId()).getName());
+            admin_Projects.setPMID("" + project.getPmId());
+            admin_Projects.setProjectName(project.getName());
+            admin_Projects.setCompletionBar((int) AdminModel.getCompelationRateByProjectName(project.getName()));
+            admin_Projects.setjCompletionPercent(new DecimalFormat("#.##").format(AdminModel.getCompelationRateByProjectName(project.getName())) + "%");
         }
     }
 
     class AddUserButtonActionListener implements ActionListener {
 
         JComboBox<String> ManagerName = add_User.getManagerName();
-        JComboBox<String> jRoleBox = add_User.getjRoleBox();
+        JComboBox<String> RoleBox = add_User.getRoleBox();
 
         public void actionPerformed(ActionEvent e) {
             if (!add_User.getFirstName().equals("") && !add_User.getLastName().equals("") && !add_User.getAge().equals("") && !add_User.getUsername().equals("") && !add_User.getPassword().equals("") && !add_User.getSalary().equals("") && !add_User.getProjectName().equals("")) {
                 try {
 
-                    PersonModel person = PersonModel.preparePersonForDatabase(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getjAge()), add_User.getjUsername(), add_User.getjPassword(), jRoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getjSalary()));
+                    PersonModel person = PersonModel.preparePersonForDatabase(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getAge()), add_User.getUsername(), add_User.getPassword(), RoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getSalary()));
 
-                    if (jRoleBox.getSelectedItem().equals("Project Manager")) {
+                    if (RoleBox.getSelectedItem().equals("Project Manager")) {
                         AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getPassword(), person.getRole(), person.getSalary());
                         for (PersonModel user : AdminModel.getUsers()) {
                             if (user.getUsername().equals(person.getUsername())) {
@@ -343,10 +340,10 @@ public class AdminController {
             add_User.setUsername("");
             add_User.setPassword("");
             add_User.setSalary("");
-            jRoleBox.setSelectedIndex(0);
+            RoleBox.setSelectedIndex(0);
             ManagerName.setSelectedItem("");
             add_User.setManagerName(ManagerName);
-            add_User.setRoleBox(jRoleBox);
+            add_User.setRoleBox(RoleBox);
         }
     }
 
@@ -354,7 +351,7 @@ public class AdminController {
 
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> ManagerName = add_User.getManagerName();
-            JComboBox<String> jRoleBox = add_User.getjRoleBox();
+            JComboBox<String> jRoleBox = add_User.getRoleBox();
 
             ManagerName.removeAllItems();
             if (jRoleBox.getSelectedItem().equals("Employee")) {
@@ -387,7 +384,7 @@ public class AdminController {
 
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> ManagerName = add_User.getManagerName();
-            JComboBox<String> jRoleBox = add_User.getjRoleBox();
+            JComboBox<String> jRoleBox = add_User.getRoleBox();
             if (ManagerName.getSelectedItem() == null) {
                 return;
             }
@@ -461,13 +458,13 @@ public class AdminController {
     class UpdateActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            if (!update_Users.getjID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("")
-                    && !update_Users.getjAge().equals("") && !update_Users.getjUsername().equals("") && !update_Users.getjPassword().equals("")
-                    && !update_Users.getjSalary().equals("")) {
+            if (!update_Users.getID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("")
+                    && !update_Users.getAge().equals("") && !update_Users.getUsername().equals("") && !update_Users.getPassword().equals("")
+                    && !update_Users.getSalary().equals("")) {
                 try {
                     PersonModel person = PersonModel.preparePersonForDatabase(update_Users.getFirstName() + " " + update_Users.getLastName(),
-                             Integer.parseInt(update_Users.getjAge()), update_Users.getjUsername(), update_Users.getjPassword(), update_Users.getRole(),
-                             Double.parseDouble(update_Users.getjSalary()));
+                            Integer.parseInt(update_Users.getAge()), update_Users.getUsername(), update_Users.getPassword(), update_Users.getRole(),
+                            Double.parseDouble(update_Users.getSalary()));
 
                     if (update_Users.getRole().equals("Project Manager")) {
                         AdminModel.updateProject(person.getID(), update_Users.getProjectName());

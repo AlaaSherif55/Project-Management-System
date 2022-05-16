@@ -32,87 +32,6 @@ public class ProjectManagerController {
         this.ProjectManagerView.AddViewProjectListener(new ViewProjectListener());
     }
 
-    private void initializeViewProject() {
-        PM_Project = new PM_Project();
-        fillProjectsTable();
-    }
-
-    private void initializeReportEmployee() {
-        PM_ReportEmployee = new PM_ReportEmployee();
-        fillEmployeeTable();
-
-        PM_ReportEmployee.AddReportActionListener(new ReportEmployeeActionListener());
-        PM_ReportEmployee.AddSelectEmployeeListener(new SelectEmployeeListener());
-    }
-
-    private void fillProjectsTable() {
-        JTable TaskTable = PM_Project.getTaskTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
-
-        PM_Project.setProjectName(ManagerModel.getProject().getName());
-
-        List<Task> tasks = ManagerModel.getTasksForProject();
-        PM_Project.setCompletionBar((int) ManagerModel.getCompelationRate());
-        PM_Project.setCompletionPercent("" + new DecimalFormat("#.##").format(ManagerModel.getCompelationRate()));
-
-        Object rowData[] = new Object[8];
-        tasks.stream().map(task -> {
-            rowData[0] = task.getTask_id();
-            return task;
-        }).map(task -> {
-            rowData[1] = task.getTask_name();
-            return task;
-        }).map(task -> {
-            rowData[2] = task.getTask_info();
-            return task;
-        }).map(task -> {
-            rowData[3] = task.isTask_completed();
-            return task;
-        }).map(task -> {
-            rowData[4] = ManagerModel.findEmployeeById(task.getEmployee_id()).getName();
-            return task;
-        }).map(task -> {
-            rowData[5] = ManagerModel.findEmployeeById(task.getEmployee_id()).getID();
-            return task;
-        }).map(task -> {
-            rowData[6] = ManagerModel.findEmployeeById(ManagerModel.findEmployeeById(task.getEmployee_id()).getManagerid()).getName();
-            return task;
-        }).map(task -> {
-            rowData[7] = ManagerModel.findEmployeeById(ManagerModel.findEmployeeById(task.getEmployee_id()).getManagerid()).getID();
-            return task;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        PM_Project.setTaskTable(TaskTable);
-    }
-
-    private void fillEmployeeTable() {
-        JTable EmployeeTable = PM_ReportEmployee.getEmployeeTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
-        List<EmployeeModel> employees = ManagerModel.getEmployees();
-        Object rowDate[] = new Object[4];
-        employees.stream().map(employee -> {
-            rowDate[0] = employee.getID();
-            return employee;
-        }).map(employee -> {
-            rowDate[1] = employee.getName();
-            return employee;
-        }).map(employee -> {
-            rowDate[2] = employee.getAge();
-            return employee;
-        }).map(employee -> {
-            rowDate[3] = employee.getManagerid();
-            return employee;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowDate);
-        });
-
-        PM_ReportEmployee.setEmployeeTable(EmployeeTable);
-    }
-    
     //MainFrames Listeners
     class ViewProjectListener implements ActionListener {
 
@@ -123,6 +42,55 @@ public class ProjectManagerController {
             ProjectManagerView.getViewProject().setVisible(true);
         }
 
+        private void initializeViewProject() {
+            PM_Project = new PM_Project();
+            fillProjectsTable();
+        }
+
+        private void fillProjectsTable() {
+            JTable TaskTable = PM_Project.getTaskTable();
+
+            DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
+            List<Task> tasks = ManagerModel.getTasksForProject();
+            fillProjectInfo();
+
+            Object rowData[] = new Object[8];
+            tasks.stream().map(task -> {
+                rowData[0] = task.getTask_id();
+                return task;
+            }).map(task -> {
+                rowData[1] = task.getTask_name();
+                return task;
+            }).map(task -> {
+                rowData[2] = task.getTask_info();
+                return task;
+            }).map(task -> {
+                rowData[3] = task.isTask_completed();
+                return task;
+            }).map(task -> {
+                rowData[4] = ManagerModel.findEmployeeById(task.getEmployee_id()).getName();
+                return task;
+            }).map(task -> {
+                rowData[5] = ManagerModel.findEmployeeById(task.getEmployee_id()).getID();
+                return task;
+            }).map(task -> {
+                rowData[6] = ManagerModel.findEmployeeById(ManagerModel.findEmployeeById(task.getEmployee_id()).getManagerid()).getName();
+                return task;
+            }).map(task -> {
+                rowData[7] = ManagerModel.findEmployeeById(ManagerModel.findEmployeeById(task.getEmployee_id()).getManagerid()).getID();
+                return task;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            PM_Project.setTaskTable(TaskTable);
+        }
+        
+        private void fillProjectInfo(){
+            PM_Project.setProjectName(ManagerModel.getProject().getName());
+            PM_Project.setCompletionBar((int) ManagerModel.getCompelationRate());
+            PM_Project.setCompletionPercent("" + new DecimalFormat("#.##").format(ManagerModel.getCompelationRate()));
+        }
     }
 
     class ReportEmployeeViewListener implements ActionListener {
@@ -133,11 +101,42 @@ public class ProjectManagerController {
             ProjectManagerView.setReportEmployee(PM_ReportEmployee);
             ProjectManagerView.AddToDesktop(ProjectManagerView.getReportEmployee());
             ProjectManagerView.getReportEmployee().setVisible(true);
-
         }
 
+        private void initializeReportEmployee() {
+            PM_ReportEmployee = new PM_ReportEmployee();
+            fillEmployeeTable();
+
+            PM_ReportEmployee.AddReportActionListener(new ReportEmployeeActionListener());
+            PM_ReportEmployee.AddSelectEmployeeListener(new SelectEmployeeListener());
+        }
+
+        private void fillEmployeeTable() {
+            JTable EmployeeTable = PM_ReportEmployee.getEmployeeTable();
+
+            DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
+            List<EmployeeModel> employees = ManagerModel.getEmployees();
+            Object rowDate[] = new Object[4];
+            employees.stream().map(employee -> {
+                rowDate[0] = employee.getID();
+                return employee;
+            }).map(employee -> {
+                rowDate[1] = employee.getName();
+                return employee;
+            }).map(employee -> {
+                rowDate[2] = employee.getAge();
+                return employee;
+            }).map(employee -> {
+                rowDate[3] = employee.getManagerid();
+                return employee;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowDate);
+            });
+
+            PM_ReportEmployee.setEmployeeTable(EmployeeTable);
+        }
     }
-    
+
     //InternalFrames Listeners
     class ReportEmployeeActionListener implements ActionListener {
 
