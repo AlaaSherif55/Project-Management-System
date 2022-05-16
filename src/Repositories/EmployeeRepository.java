@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EmployeeRepository {
-    static int ID;
+    static int latestEmployeeID;
     public static void addAttendance(Timestamp from, int ID) {
         String insertSql = "INSERT INTO Attendances (entryTime,employeeID) VALUES ('"+from+"',"+ID+");";
         try{
@@ -28,8 +28,8 @@ public class EmployeeRepository {
     }
 
     public static void submitAttendance(Timestamp to) {
-        ID = EmployeeRepository.lastAttendID();
-        String updateSQL = "UPDATE Attendances SET exitTime='"+to+"' WHERE id_attend="+ID+"";
+        latestEmployeeID = EmployeeRepository.lastAttendID();
+        String updateSQL = "UPDATE Attendances SET exitTime='"+to+"' WHERE id_attend="+latestEmployeeID+"";
         try{
             DatabaseQuery.executeUpdate(updateSQL);
         } catch (SQLException ex) {
@@ -79,7 +79,7 @@ public class EmployeeRepository {
     }
     
     public static List<Task> getNotCompletedTasksForEmployee(int id_employee) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         String selectSql = "SELECT * FROM task WHERE id_employee="+ id_employee +" AND completed_task=0";
         try{
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
@@ -91,17 +91,17 @@ public class EmployeeRepository {
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
                 Task task = new Task(taskID, taskName, taskInfo, employeeID, isCompleted);
-                taskList.add(task);
+                tasks.add(task);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<Task> getCompletedTasksForEmployee(int id_employee) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         
         String selectSql = "SELECT * FROM task WHERE id_employee="+id_employee+" AND completed_task=1";
         try{
@@ -114,7 +114,7 @@ public class EmployeeRepository {
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
                 Task task = new Task(taskID, taskName, taskInfo, employeeID, isCompleted);
-                taskList.add(task);
+                tasks.add(task);
             }
 
             //  statement.close();
@@ -122,7 +122,7 @@ public class EmployeeRepository {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<Penality> getPenalities(int id) {

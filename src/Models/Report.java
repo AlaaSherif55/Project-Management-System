@@ -16,14 +16,6 @@ public class Report {
         this.employeeID = employeeID;
         this.reportName=name;
     }
-
-    public Report( int employeeID,String details, int projectManagerID,String name) {
-        this.details = details;
-        this.employeeID = employeeID;
-        this.projectManagerID = projectManagerID;
-        this.reportName=name;
-    }
-    
     
     public String getDetails() {
         return details;

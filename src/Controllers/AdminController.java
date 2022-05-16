@@ -311,7 +311,7 @@ public class AdminController {
             if (!add_User.getFirstName().equals("") && !add_User.getLastName().equals("") && !add_User.getjAge().equals("") && !add_User.getjUsername().equals("") && !add_User.getjPassword().equals("") && !add_User.getjSalary().equals("") && !add_User.getProjectName().equals("")) {
                 try {
 
-                    PersonModel person = new PersonModel(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getjAge()), add_User.getjUsername(), add_User.getjPassword(), jRoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getjSalary()));
+                    PersonModel person = PersonModel.preparePersonForDatabase(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getjAge()), add_User.getjUsername(), add_User.getjPassword(), jRoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getjSalary()));
 
                     if (jRoleBox.getSelectedItem().equals("Project Manager")) {
                         AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getjPassword(), person.getRole(), person.getSalary());
@@ -461,9 +461,13 @@ public class AdminController {
     class UpdateActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            if (!update_Users.getjID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("") && !update_Users.getjAge().equals("") && !update_Users.getjUsername().equals("") && !update_Users.getjPassword().equals("") && !update_Users.getjSalary().equals("")) {
+            if (!update_Users.getjID().equals("") && !update_Users.getFirstName().equals("") && !update_Users.getLastName().equals("")
+                    && !update_Users.getjAge().equals("") && !update_Users.getjUsername().equals("") && !update_Users.getjPassword().equals("")
+                    && !update_Users.getjSalary().equals("")) {
                 try {
-                    PersonModel person = new PersonModel(Integer.parseInt(update_Users.getjID()), update_Users.getFirstName() + " " + update_Users.getLastName(), Integer.parseInt(update_Users.getjAge()), update_Users.getjUsername(), update_Users.getjPassword(), update_Users.getRole(), Double.parseDouble(update_Users.getjSalary()));
+                    PersonModel person = PersonModel.preparePersonForDatabase(update_Users.getFirstName() + " " + update_Users.getLastName(),
+                             Integer.parseInt(update_Users.getjAge()), update_Users.getjUsername(), update_Users.getjPassword(), update_Users.getRole(),
+                             Double.parseDouble(update_Users.getjSalary()));
 
                     if (update_Users.getRole().equals("Project Manager")) {
                         AdminModel.updateProject(person.getID(), update_Users.getProjectName());

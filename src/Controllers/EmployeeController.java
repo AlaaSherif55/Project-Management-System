@@ -58,19 +58,19 @@ public class EmployeeController {
 
         private void initializeManageTask() {
             manageTasksView = new EM_ManageTasks();
-            fillAssignedTasksTable();
-            fillCompletedTasksTable();
+            fillAssignedTasks();
+            fillCompletedTasks();
             manageTasksView.AddUpdateTaskListener(new UpdateTaskListener());
         }
 
-        private void fillAssignedTasksTable() {
+        private void fillAssignedTasks() {
             JTable AssignedTasks = manageTasksView.getAssignedTasks();
-            List<Task> notCompletedTask = employeeModel.getNotCompletedTasksForEmployee(employeeModel.getID());
+            List<Task> notCompletedTasks = employeeModel.getNotCompletedTasksForEmployee(employeeModel.getID());
 
-            DefaultTableModel assignedTableodel = (DefaultTableModel) AssignedTasks.getModel();
+            DefaultTableModel assignedTableModel = (DefaultTableModel) AssignedTasks.getModel();
 
             Object[] rowDataAssigned = new Object[4];
-            notCompletedTask.stream().map(task -> {
+            notCompletedTasks.stream().map(task -> {
                 rowDataAssigned[0] = task.getTask_id();
                 return task;
             }).map(task -> {
@@ -80,13 +80,13 @@ public class EmployeeController {
                 rowDataAssigned[2] = task.getTask_info();
                 return task;
             }).forEachOrdered(_item -> {
-                assignedTableodel.addRow(rowDataAssigned);
+                assignedTableModel.addRow(rowDataAssigned);
             });
 
             manageTasksView.setAssignedTasks(AssignedTasks);
         }
 
-        private void fillCompletedTasksTable() {
+        private void fillCompletedTasks() {
 
             JTable CompletedTasks = manageTasksView.getCompletedTasks();
 
@@ -144,9 +144,9 @@ public class EmployeeController {
         }
 
         private void fillPenalityTable() {
-            JTable ViewPenalitiesTable = viewPenalities.getViewPenalitiesButton();
+            JTable penalitiesTable = viewPenalities.getViewPenalitiesButton();
 
-            DefaultTableModel tableModel = (DefaultTableModel) ViewPenalitiesTable.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) penalitiesTable.getModel();
 
             Object rowData[] = new Object[5];
             List<Penality> penalities = employeeModel.getPenalities();
@@ -163,7 +163,7 @@ public class EmployeeController {
                 tableModel.addRow(rowData);
             });
 
-            viewPenalities.setViewPenalitiesButton(ViewPenalitiesTable);
+            viewPenalities.setViewPenalitiesButton(penalitiesTable);
         }
     }
 
@@ -206,15 +206,15 @@ public class EmployeeController {
             JTable AssignedTasks = manageTasksView.getAssignedTasks();
 
             TableModel tableModel = AssignedTasks.getModel();
-            int i = AssignedTasks.getSelectedRow();
+            int selectedIndex = AssignedTasks.getSelectedRow();
 
-            DefaultTableModel model2 = (DefaultTableModel) AssignedTasks.getModel();
+            DefaultTableModel assignedModel = (DefaultTableModel) AssignedTasks.getModel();
             Object rowDate[] = new Object[4];
-            rowDate[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
-            rowDate[1] = tableModel.getValueAt(i, 1).toString();
-            rowDate[2] = tableModel.getValueAt(i, 2).toString();
+            rowDate[0] = Integer.parseInt(tableModel.getValueAt(selectedIndex, 0).toString());
+            rowDate[1] = tableModel.getValueAt(selectedIndex, 1).toString();
+            rowDate[2] = tableModel.getValueAt(selectedIndex, 2).toString();
             if (AssignedTasks.getSelectedRowCount() == 1) {
-                model2.removeRow(AssignedTasks.getSelectedRow());
+                assignedModel.removeRow(AssignedTasks.getSelectedRow());
             }
 
             manageTasksView.setAssignedTasks(AssignedTasks);
@@ -229,13 +229,13 @@ public class EmployeeController {
             int i = AssignedTasks.getSelectedRow();
 
             employeeModel.submitCompletedTask(Integer.parseInt(tableModel.getValueAt(i, 0).toString()));
-            DefaultTableModel model1 = (DefaultTableModel) CompletedTasks.getModel();
+            DefaultTableModel completedModel = (DefaultTableModel) CompletedTasks.getModel();
 
             Object rowDate1[] = new Object[3];
             rowDate1[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
             rowDate1[1] = tableModel.getValueAt(i, 1).toString();
             rowDate1[2] = tableModel.getValueAt(i, 2).toString();
-            model1.addRow(rowDate1);
+            completedModel.addRow(rowDate1);
 
             manageTasksView.setCompletedTasks(CompletedTasks);
         }
@@ -245,12 +245,12 @@ public class EmployeeController {
     class RequestVacationListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            JCalendar jCalendar1 = requestVacation.getjCalendar1();
-            JCalendar jCalendar2 = requestVacation.getjCalendar2();
+            JCalendar fromCalender = requestVacation.getFromCalendar();
+            JCalendar toCalender = requestVacation.getToCalendar();
 
-            java.util.Date utilDate1 = new java.util.Date(jCalendar1.getYearChooser().getValue() - 1900, jCalendar1.getMonthChooser().getMonth(), jCalendar1.getDayChooser().getDay());
+            java.util.Date utilDate1 = new java.util.Date(fromCalender.getYearChooser().getValue() - 1900, fromCalender.getMonthChooser().getMonth(), fromCalender.getDayChooser().getDay());
             java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
-            java.util.Date utilDate = new java.util.Date(jCalendar2.getYearChooser().getValue() - 1900, jCalendar2.getMonthChooser().getMonth(), jCalendar2.getDayChooser().getDay());
+            java.util.Date utilDate = new java.util.Date(toCalender.getYearChooser().getValue() - 1900, toCalender.getMonthChooser().getMonth(), toCalender.getDayChooser().getDay());
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
             employeeModel.requestVacation(sqlDate1, sqlDate);
             JOptionPane.showMessageDialog(null, "This vacation has been requested successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
@@ -263,7 +263,7 @@ public class EmployeeController {
 
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> Month = workingHours.getMonthComboBox();
-            JTextField workingHoursText = workingHours.getjWorkingHours();
+            JTextField workingHoursText = workingHours.getWorkingHours();
             String month = Month.getSelectedItem().toString();
             int monthValue = 0;
             switch (month) {
@@ -308,7 +308,7 @@ public class EmployeeController {
 
             double Hours = employeeModel.getWorkingHrsPerMonth(employeeModel.getID(), monthValue);
             workingHoursText.setText("" + Hours);
-            workingHours.setjWorkingHours(workingHoursText);
+            workingHours.setWorkingHours(workingHoursText);
         }
 
     }

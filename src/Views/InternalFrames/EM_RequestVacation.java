@@ -18,12 +18,12 @@ public class EM_RequestVacation extends javax.swing.JInternalFrame {
         
     }
 
-    public JCalendar getjCalendar1() {
-        return jCalendar1;
+    public JCalendar getFromCalendar() {
+        return fromCalendar;
     }
 
-    public JCalendar getjCalendar2() {
-        return jCalendar2;
+    public JCalendar getToCalendar() {
+        return toCalendar;
     }
 
     /**
@@ -39,9 +39,9 @@ public class EM_RequestVacation extends javax.swing.JInternalFrame {
         dateComponentFormatter1 = new org.jdatepicker.impl.DateComponentFormatter();
         jDatePickerUtil1 = new org.jdatepicker.util.JDatePickerUtil();
         sqlDateModel1 = new org.jdatepicker.impl.SqlDateModel();
-        jCalendar1 = new com.toedter.calendar.JCalendar();
+        fromCalendar = new com.toedter.calendar.JCalendar();
         jLabel1 = new javax.swing.JLabel();
-        jCalendar2 = new com.toedter.calendar.JCalendar();
+        toCalendar = new com.toedter.calendar.JCalendar();
         jLabel2 = new javax.swing.JLabel();
         RequestButton = new javax.swing.JButton();
 
@@ -66,8 +66,8 @@ public class EM_RequestVacation extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fromCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(RequestButton))
                 .addGap(122, 122, 122))
         );
@@ -77,10 +77,10 @@ public class EM_RequestVacation extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fromCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(RequestButton)
@@ -96,12 +96,12 @@ public class EM_RequestVacation extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RequestButton;
     private org.jdatepicker.impl.DateComponentFormatter dateComponentFormatter1;
-    private com.toedter.calendar.JCalendar jCalendar1;
-    private com.toedter.calendar.JCalendar jCalendar2;
+    private com.toedter.calendar.JCalendar fromCalendar;
     private org.jdatepicker.util.JDatePickerUtil jDatePickerUtil1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private org.jdatepicker.impl.SqlDateModel sqlDateModel1;
     private java.awt.TextField textField1;
+    private com.toedter.calendar.JCalendar toCalendar;
     // End of variables declaration//GEN-END:variables
 }

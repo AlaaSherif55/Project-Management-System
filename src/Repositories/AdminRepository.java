@@ -8,12 +8,8 @@ package Repositories;
 import Models.PersonModel;
 import Models.Project;
 import Models.Task;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +85,7 @@ public class AdminRepository {
     }
 
     public static List<PersonModel> getPersonByRole(String personRole) {
-        List<PersonModel> people = new ArrayList<>();
+        List<PersonModel> users = new ArrayList<>();
         String selectSql = "SELECT * FROM person where role='" + personRole + "'";
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
@@ -105,14 +101,14 @@ public class AdminRepository {
                 int id_m = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                PersonModel person = new PersonModel(id_e, name, age, username, password, role, salary, id_m);
-                people.add(person);
+                PersonModel user = new PersonModel(id_e, name, age, username, password, role, salary, id_m);
+                users.add(user);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return people;
+        return users;
 
     }
 
@@ -384,7 +380,6 @@ public class AdminRepository {
     }
 
     public static void addProjectManager(String name, int age, String username, String password, String role, double salary) {
-        ResultSet resultSet = null;
         String[] names = name.split(" ");
         String fname = names[0];
         String lname = names[1];
