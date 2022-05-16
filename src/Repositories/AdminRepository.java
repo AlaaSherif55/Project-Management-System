@@ -50,7 +50,6 @@ public class AdminRepository {
                     return true;
                 }
             }
-            //  statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -64,7 +63,7 @@ public class AdminRepository {
             String selectSql = "SELECT * FROM person WHERE NOT role='admin' ";
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_e = resultSet.getInt("id");
+                int user_id = resultSet.getInt("id");
                 int age = resultSet.getInt("age");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
@@ -72,10 +71,11 @@ public class AdminRepository {
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int id_m = resultSet.getInt("manager_id");
+                int managerID = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                PersonModel user = new PersonModel(id_e, name, age, username, password, role, salary, id_m);
+                PersonModel user = new PersonModel(user_id, name, age, username, password,
+                        role, salary, managerID);
                 users.add(user);
             }
 
@@ -89,12 +89,12 @@ public class AdminRepository {
     }
 
     public static List<PersonModel> getPersonByRole(String personRole) {
-        List<PersonModel> people = new ArrayList<>();
+        List<PersonModel> users = new ArrayList<>();
         String selectSql = "SELECT * FROM person where role='" + personRole + "'";
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_e = resultSet.getInt("id");
+                int user_id = resultSet.getInt("id");
                 int age = resultSet.getInt("age");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
@@ -102,17 +102,18 @@ public class AdminRepository {
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int id_m = resultSet.getInt("manager_id");
+                int managerID = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                PersonModel person = new PersonModel(id_e, name, age, username, password, role, salary, id_m);
-                people.add(person);
+                PersonModel person = new PersonModel(user_id, name, age, username, password,
+                        role, salary, managerID);
+                users.add(person);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return people;
+        return users;
 
     }
 
@@ -143,9 +144,9 @@ public class AdminRepository {
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_p = resultSet.getInt("p_id");
-                int id_pm = resultSet.getInt("id_PM");
-                project = new Project(name, id_p, id_pm);
+                int projectID = resultSet.getInt("p_id");
+                int projectManagerID = resultSet.getInt("id_PM");
+                project = new Project(name, projectID, projectManagerID);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -160,7 +161,9 @@ public class AdminRepository {
         String[] names = user.getName().split(" ");
         String fname = names[0];
         String lname = names[1];
-        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role,manager_ID) VALUES ('" + fname + "','" + lname + "'," + user.getAge() + "," + user.getSalary() + ",'" + user.getPassword() + "','" + user.getUsername() + "','" + user.getRole() + "'," + user.getManagerid() + ");";
+        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role,manager_ID) VALUES ('"
+                + fname + "','" + lname + "'," + user.getAge() + "," + user.getSalary() + ",'" + user.getPassword() 
+                + "','" + user.getUsername() + "','" + user.getRole() + "'," + user.getManagerid() + ");";
         try {
             DatabaseQuery.executeSelect(insertSql);
         } catch (SQLException ex) {
@@ -169,20 +172,20 @@ public class AdminRepository {
     }//add button
 
     public static List<Task> getTasks() {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
         try {
             String selectSql = "SELECT * FROM task ";
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int taskID = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int employeeID = resultSet.getInt("id_employee");
+                String taskName = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
-                taskList.add(task);
+                Task task = new Task(taskID, taskName, info, employeeID, isCompleted);
+                tasks.add(task);
             }
 
             //  statement.close();
@@ -190,11 +193,11 @@ public class AdminRepository {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<Task> getTaskToOneProject(String projectName) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
         int projectID = getProjectByName(projectName).getId_project();
 
@@ -202,37 +205,37 @@ public class AdminRepository {
             String selectSql = "SELECT * FROM task where id_project= " + projectID;
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int taskID = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int employeeID = resultSet.getInt("id_employee");
+                String taskName = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
-                taskList.add(task);
+                Task task = new Task(taskID, taskName, info, employeeID, isCompleted);
+                tasks.add(task);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<Task> getCompletedTaskToOneProject(String projectName) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         int projectID = getProjectByName(projectName).getId_project();
         String selectSql = "SELECT * FROM task where id_project=" + projectID + " and completed_task=1";
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int taskID = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int employeeID = resultSet.getInt("id_employee");
+                String taskName = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
-                taskList.add(task);
+                Task task = new Task(taskID, taskName, info, employeeID, isCompleted);
+                tasks.add(task);
             }
 
             //  statement.close();
@@ -240,7 +243,7 @@ public class AdminRepository {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<Task> getCompletedTasks() {
@@ -250,13 +253,13 @@ public class AdminRepository {
             String selectSql = "SELECT * FROM task WHERE completed_task=1";
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int taskID = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int employeeID = resultSet.getInt("id_employee");
+                String taskName = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
+                Task task = new Task(taskID, taskName, info, employeeID, isCompleted);
                 taskList.add(task);
             }
 
@@ -270,13 +273,13 @@ public class AdminRepository {
 
     public static PersonModel findUserById(int id) {
 
-        PersonModel person = null;
+        PersonModel user = null;
         String selectSql = "SELECT * FROM person WHERE id=" + id;
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
-                int personId = resultSet.getInt("id");
+                int userID = resultSet.getInt("id");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
@@ -284,9 +287,9 @@ public class AdminRepository {
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int mangerid = resultSet.getInt("manager_ID");
+                int managerID = resultSet.getInt("manager_ID");
                 String name = fname + " " + lname;
-                person = new PersonModel(personId, name, age, username, password, role, salary, mangerid);
+                user = new PersonModel(userID, name, age, username, password, role, salary, managerID);
 
             }
 
@@ -295,7 +298,7 @@ public class AdminRepository {
             exception.printStackTrace();
         }
 
-        return person;
+        return user;
 
     }
 
@@ -310,13 +313,13 @@ public class AdminRepository {
     }
 
     public static PersonModel findEmployeesUnderManagerByID(int managerid) {
-        PersonModel person = null;
+        PersonModel user = null;
         String selectSql = "SELECT * FROM person WHERE manager_ID=" + managerid;// +pass+"AND username="+userName;
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
-                int personId = resultSet.getInt("id");
+                int userID = resultSet.getInt("id");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
@@ -324,16 +327,16 @@ public class AdminRepository {
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int mangerid = resultSet.getInt("manager_ID");
+                int managerID = resultSet.getInt("manager_ID");
                 String name = fname + " " + lname;
-                person = new PersonModel(personId, name, age, username, password, role, salary, mangerid);
+                user = new PersonModel(userID, name, age, username, password, role, salary, managerID);
 
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return person;
+        return user;
     }
 
     public static void UpdateUser(PersonModel person) {
@@ -354,24 +357,24 @@ public class AdminRepository {
     }
 
     public static PersonModel findUserByName(String Name) {
-        PersonModel person = null;
+        PersonModel user = null;
         String[] names = Name.split(" ");
         String fname = names[0];
         String lname = names[1];
-        String selectSql = "SELECT * FROM person WHERE fname='"+fname+"' and lname='"+lname+"'";
+        String selectSql = "SELECT * FROM person WHERE fname='" + fname + "' and lname='" + lname + "'";
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("id");
+                int userID = resultSet.getInt("id");
                 double salary = resultSet.getDouble("salary");
                 int age = resultSet.getInt("age");
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int mangerid = resultSet.getInt("manager_ID");
+                int managerID = resultSet.getInt("manager_ID");
                 String name = fname + " " + lname;
-                person = new PersonModel(id, name, age, username, password, role, salary, mangerid);
+                user = new PersonModel(userID, name, age, username, password, role, salary, managerID);
             }
 
             //  statement.close();
@@ -379,7 +382,7 @@ public class AdminRepository {
             ex.printStackTrace();
         }
 
-        return person;
+        return user;
 
     }
 
@@ -388,12 +391,11 @@ public class AdminRepository {
         String[] names = name.split(" ");
         String fname = names[0];
         String lname = names[1];
-        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role) VALUES ('"+fname+"','"+lname+"',"+age+","+salary+",'"+password+"','"+username+"','"+role+"');";
+        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role) VALUES ('" + fname + "','" + lname + "'," + age + "," + salary + ",'" + password + "','" + username + "','" + role + "');";
 
-        try{
+        try {
             DatabaseQuery.executeInsert(insertSql);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }

@@ -9,9 +9,10 @@ public class ProjectManagerModel extends PersonModel {
     }
     
     public static ProjectManagerModel createFromPerson(PersonModel person){
-        return new ProjectManagerModel(person.getID(), person.getName(), person.getAge(), person.getUsername(), person.getPassword(), person.getRole(), person.getSalary(), person.getManagerid());
+        return new ProjectManagerModel(person.getID(), person.getName()
+                , person.getAge(), person.getUsername(), person.getPassword()
+                , person.getRole(), person.getSalary(), person.getManagerid());
     }
-    
     public double getCompelationRate() {
         double tasks = this.getTasksForProject().size();
         if(tasks == 0) tasks=1;

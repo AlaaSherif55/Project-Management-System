@@ -18,7 +18,9 @@ public class ProjectManagerRepository{
     public static List<Task> getTasksForProject(int managerID) {
         List<Task> taskList = new ArrayList<>();
         ResultSet resultSet = null;
-        String selectSql = "SELECT dbo.person.id, dbo.task.id_task, dbo.task.id_project, dbo.task.completed_task, dbo.task.explanation, dbo.task.id_employee, dbo.task.task_name\n"
+        String selectSql = "SELECT dbo.person.id, dbo.task.id_task,"
+                + " dbo.task.id_project, dbo.task.completed_task, dbo.task.explanation,"
+                + " dbo.task.id_employee, dbo.task.task_name\n"
                 + "FROM     dbo.person INNER JOIN\n"
                 + "                  dbo.project ON dbo.person.id = dbo.project.id_PM INNER JOIN\n"
                 + "                  dbo.task ON dbo.project.p_id = dbo.task.id_project\n"
@@ -26,13 +28,13 @@ public class ProjectManagerRepository{
         try{
             resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int id_task = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int id_employee = resultSet.getInt("id_employee");
+                String task_name = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
+                Task task = new Task(id_task, task_name, info, id_employee, isCompleted);
                 taskList.add(task);
             }
             //  statement.close();
@@ -44,9 +46,11 @@ public class ProjectManagerRepository{
     }
     
     public static List<Task> getCompletedTasksForProject(int managerID) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         ResultSet resultSet = null;
-        String selectSql = "SELECT dbo.person.id, dbo.task.id_task, dbo.task.id_project, dbo.task.completed_task, dbo.task.explanation, dbo.task.task_name, dbo.task.id_employee\n"
+        String selectSql = "SELECT dbo.person.id, dbo.task.id_task, dbo.task.id_project,"
+                + " dbo.task.completed_task, dbo.task.explanation,"
+                + " dbo.task.task_name, dbo.task.id_employee\n"
                 + "FROM     dbo.person INNER JOIN\n"
                 + "                  dbo.project ON dbo.person.id = dbo.project.id_PM INNER JOIN\n"
                 + "                  dbo.task ON dbo.project.p_id = dbo.task.id_project\n"
@@ -54,14 +58,14 @@ public class ProjectManagerRepository{
         try{
             resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_t = resultSet.getInt("id_task");
+                int id_task = resultSet.getInt("id_task");
                 String info = resultSet.getString("explanation");
-                int id_e = resultSet.getInt("id_employee");
-                String name = resultSet.getString("task_name");
+                int id_employee = resultSet.getInt("id_employee");
+                String taskName = resultSet.getString("task_name");
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
-                Task task = new Task(id_t, name, info, id_e, isCompleted);
-                taskList.add(task);
+                Task task = new Task(id_task, taskName, info, id_employee, isCompleted);
+                tasks.add(task);
             }
 
             //  statement.close();
@@ -69,13 +73,15 @@ public class ProjectManagerRepository{
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static List<EmployeeModel> getEmployees(int managerID) {
         List<EmployeeModel> employees = new ArrayList<>();
         ResultSet resultSet = null;
-        String selectSql = "SELECT  DISTINCT person_1.id, person_1.fname, person_1.lname, person_1.age, person_1.salary, person_1.password, person_1.username, person_1.role, person_1.manager_ID\n"
+        String selectSql = "SELECT  DISTINCT person_1.id, person_1.fname, person_1.lname, person_1.age,"
+                + " person_1.salary, person_1.password, person_1"
+                + ".username, person_1.role, person_1.manager_ID\n"
                 + "FROM     dbo.person INNER JOIN\n"
                 + "                  dbo.project ON dbo.person.id = dbo.project.id_PM INNER JOIN\n"
                 + "                  dbo.task ON dbo.project.p_id = dbo.task.id_project INNER JOIN\n"
@@ -84,7 +90,7 @@ public class ProjectManagerRepository{
         try{
             resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_e = resultSet.getInt("id");
+                int id_employee = resultSet.getInt("id");
                 int age = resultSet.getInt("age");
                 double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
@@ -92,10 +98,10 @@ public class ProjectManagerRepository{
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int id_m = resultSet.getInt("manager_id");
+                int manager_id = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                EmployeeModel employee = new EmployeeModel(id_e, name, age, username, password, role, salary, id_m);
+                EmployeeModel employee = new EmployeeModel(id_employee, name, age, username, password, role, salary, manager_id);
                 employees.add(employee);
             }
 
@@ -109,7 +115,8 @@ public class ProjectManagerRepository{
     }
 
     public static void ReportEmployee(int id_projectManger, int id_employee, String info, String name) {
-        String insertSql = "INSERT INTO report (id_projectManager,employee_id,details,reportName) VALUES (" + id_projectManger + "," + id_employee + ",'" + info + "','" + name + "');";
+        String insertSql = "INSERT INTO report (id_projectManager,employee_id,details,reportName) VALUES ("
+                + id_projectManger + "," + id_employee + ",'" + info + "','" + name + "');";
         try{
             DatabaseQuery.executeInsert(insertSql);
         }
@@ -119,7 +126,7 @@ public class ProjectManagerRepository{
     }
 
     public static EmployeeModel findEmployeeById(int employeeID) {
-        EmployeeModel person = null;
+        EmployeeModel employee = null;
         String selectSql = "SELECT * FROM person WHERE  id="+employeeID;
         try{
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
@@ -133,16 +140,16 @@ public class ProjectManagerRepository{
                 String password = resultSet.getString("password");
                 String username = resultSet.getString("username");
                 String role = resultSet.getString("role");
-                int mangerid = resultSet.getInt("manager_ID");
+                int manager_id = resultSet.getInt("manager_ID");
                 String name = fname + " " + lname;
-                person = new EmployeeModel(id, name, age, username, password, role, salary, mangerid);
+                employee = new EmployeeModel(id, name, age, username, password, role, salary, manager_id);
 
             }
 
         } catch (SQLException ex) {
             
         }
-        return person;
+        return employee;
 
     }
 
@@ -152,15 +159,14 @@ public class ProjectManagerRepository{
         try{
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int projectID = resultSet.getInt("p_id");
+                int project_id = resultSet.getInt("p_id");
                 String name = resultSet.getString("p_name");
-                int managerID = resultSet.getInt("id_PM");
-                project = new Project(name, projectID, managerID);
+                int manager_id = resultSet.getInt("id_PM");
+                project = new Project(name, project_id, manager_id);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return project;
 
     }
@@ -171,12 +177,11 @@ public class ProjectManagerRepository{
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
-                int id_p = resultSet.getInt("p_id");
-                String n = resultSet.getString("p_name");
-                int id_pm = resultSet.getInt("id_PM");
-                Project t = new Project(n, id_p, id_pm);
+                int project_id = resultSet.getInt("p_id");
+                String projectName = resultSet.getString("p_name");
+                int projectManagerId = resultSet.getInt("id_PM");
+                Project t = new Project(projectName, project_id, projectManagerId);
                 project.add(t);
-
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
