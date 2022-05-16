@@ -8,12 +8,8 @@ package Repositories;
 import Models.PersonModel;
 import Models.Project;
 import Models.Task;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,9 +101,8 @@ public class AdminRepository {
                 int managerID = resultSet.getInt("manager_id");
                 String name = fname + " " + lname;
 
-                PersonModel person = new PersonModel(user_id, name, age, username, password,
-                        role, salary, managerID);
-                users.add(person);
+                PersonModel user = new PersonModel(user_id, name, age, username, password, role, salary, managerID);
+                users.add(user);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -387,11 +382,11 @@ public class AdminRepository {
     }
 
     public static void addProjectManager(String name, int age, String username, String password, String role, double salary) {
-        ResultSet resultSet = null;
         String[] names = name.split(" ");
         String fname = names[0];
         String lname = names[1];
-        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role) VALUES ('" + fname + "','" + lname + "'," + age + "," + salary + ",'" + password + "','" + username + "','" + role + "');";
+        String insertSql = "INSERT INTO person(fname,lname,age,salary,password,username,role) VALUES ('" 
+                        + fname + "','" + lname + "'," + age + "," + salary + ",'" + password + "','" + username + "','" + role + "');";
 
         try {
             DatabaseQuery.executeInsert(insertSql);

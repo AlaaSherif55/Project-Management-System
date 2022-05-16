@@ -43,6 +43,10 @@ public class TeamLeaderController {
         this.teamLeaderView = view;
         this.teamLeaderModel = model;
 
+        addAllTeamLeaderViewFrameListeners();
+    }
+
+    private void addAllTeamLeaderViewFrameListeners() {
         this.teamLeaderView.addAssignTaskActionListener(new AssignTasksActionListener());
         this.teamLeaderView.addManagePenalitiesActionListener(new ManagePenalitiesActionListener());
         this.teamLeaderView.addManageVacationActionListener(new ManageVacationsActionListener());
@@ -62,6 +66,40 @@ public class TeamLeaderController {
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderAssignTasks());
             teamLeaderView.getTeamLeaderAssignTasks().setVisible(true);
         }
+
+        private void initializeAssignTasksView() {
+            AssignTasksView = new TL_AssignTasks();
+            fillAssignTasksEmployeeTable();
+
+            AssignTasksView.addAssignTaskButtonActionListener(new AssignTaskButtonActionListener());
+            AssignTasksView.addEmployeeTableMouseAdapter(new AssignTasksEmployeeTableMouseListener());
+        }
+
+        private void fillAssignTasksEmployeeTable() {
+            JTable EmployeeTable = AssignTasksView.getEmployeeTable();
+
+            List<EmployeeModel> employees = teamLeaderModel.getEmployees(teamLeaderModel.getID());
+            DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
+
+            Object rowData[] = new Object[4];
+            employees.stream().map(employee -> {
+                rowData[0] = employee.getName();
+                return employee;
+            }).map(employee -> {
+                rowData[1] = employee.getID();
+                return employee;
+            }).map(employee -> {
+                rowData[2] = employee.getSalary();
+                return employee;
+            }).map(employee -> {
+                rowData[3] = employee.getAge();
+                return employee;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            AssignTasksView.setEmployeeTable(EmployeeTable);
+        }
     }
 
     class ManagePenalitiesActionListener implements ActionListener {
@@ -73,18 +111,93 @@ public class TeamLeaderController {
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderManagePenalities());
             teamLeaderView.getTeamLeaderManagePenalities().setVisible(true);
         }
+
+        private void initializeManagePenalitiesView() {
+            ManagePenalitiesView = new TL_ManagePenalities();
+            fillManagePenalitiesEmployeeTable();
+
+            ManagePenalitiesView.addAssignPenalityButtonActionListener(new AssignPenalityButtonActionListener());
+            ManagePenalitiesView.addEmployeeTableMouseAdapter(new ManagePenalitiesEmployeeTableMouseListener());
+        }
+
+        private void fillManagePenalitiesEmployeeTable() {
+            JTable EmployeeTable = ManagePenalitiesView.getEmployeeTable();
+
+            List<EmployeeModel> employees = teamLeaderModel.getEmployees(teamLeaderModel.getID());
+            DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
+
+            Object rowDate[] = new Object[5];
+            employees.stream().map(employee -> {
+                rowDate[0] = employee.getID();
+                System.out.println(employee.getID());
+                return employee;
+            }).map(employee -> {
+                rowDate[1] = employee.getName();
+                return employee;
+            }).map(employee -> {
+                rowDate[2] = employee.getCompletedTasksForEmployee(employee.getID()).size();
+                return employee;
+            }).map(employee -> {
+                rowDate[3] = employee.getNotCompletedTasksForEmployee(employee.getID()).size();
+                return employee;
+            }).map(employee -> {
+                rowDate[4] = employee.getPenalities().size();
+                return employee;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowDate);
+            });
+
+            ManagePenalitiesView.setEmployeeTable(EmployeeTable);
+        }
     }
 
     class ManageVacationsActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             initializeManageVacationsView();
-            
+
             teamLeaderView.setTeamLeaderManageVacations(ManageVacationsView);
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderManageVacations());
             teamLeaderView.getTeamLeaderManageVacations().setVisible(true);
         }
 
+        private void initializeManageVacationsView() {
+            ManageVacationsView = new TL_ManageVacations();
+            fillManageVacationsRequestsTable();
+
+            ManageVacationsView.addRequestsTableMouseListener(new VacationRequestsTableMouseListener());
+            ManageVacationsView.addAcceptVacationButtonActionListener(new AcceptVacationButtonActionListener());
+            ManageVacationsView.addDenyVacationButtonActionListener(new DenyVacationButtonActionListener());
+        }
+
+        private void fillManageVacationsRequestsTable() {
+            JTable RequestsTable = ManageVacationsView.getRequestsTable();
+
+            //List<EmployeeModel> employee = teamLeaderModel.getEmployees(teamLeaderModel.getID());
+            List<Vacation> vacations = teamLeaderModel.getVacationRequests();
+
+            //model.findEmployeeById(vacations.get(0).getEmployeeID()).getName();
+            DefaultTableModel tableModel = (DefaultTableModel) RequestsTable.getModel();
+
+            Object rowData[] = new Object[4];
+            vacations.stream().map(vacation -> {
+                rowData[0] = vacation.getEmployeeID();
+                return vacation;
+            }).map(vacation -> {
+                rowData[1] = teamLeaderModel.findEmployeeById(vacation.getEmployeeID()).getName();
+                return vacation;
+            }).map(vacation -> {
+                rowData[2] = vacation.getVacationStart();
+                return vacation;
+            }).map(vacation -> {
+                rowData[3] = vacation.getVacationEnd();
+                return vacation;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            ManageVacationsView.setRequestsTable(RequestsTable);
+        }
     }
 
     class ViewPenalitiesActionListener implements ActionListener {
@@ -95,6 +208,41 @@ public class TeamLeaderController {
             teamLeaderView.setTeamLeaderViewPenalities(ViewPenalitiesView);
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderViewPenalities());
             teamLeaderView.getTeamLeaderViewPenalities().setVisible(true);
+        }
+
+        private void initializeViewPenalitiesView() {
+            ViewPenalitiesView = new TL_ViewPenalities();
+            fillViewPenalitiesPenalityTable();
+        }
+
+        private void fillViewPenalitiesPenalityTable() {
+            JTable PenalityTable = ViewPenalitiesView.getPenalityTable();
+
+            List<Penality> penalities = teamLeaderModel.getPenalities();
+
+            DefaultTableModel tableModel = (DefaultTableModel) PenalityTable.getModel();
+
+            Object rowData[] = new Object[5];
+            penalities.stream().map(penality -> {
+                rowData[0] = penality.getPenalityID();
+                return penality;
+            }).map(penality -> {
+                rowData[1] = penality.getReason();
+                return penality;
+            }).map(penality -> {
+                rowData[2] = penality.getPenality();
+                return penality;
+            }).map(_item -> {
+                rowData[3] = teamLeaderModel.findEmployeeById(_item.getEmployeeID()).getName();
+                return _item;
+            }).map(_item -> {
+                rowData[4] = _item.getEmployeeID();
+                return _item;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            ViewPenalitiesView.setPenalityTable(PenalityTable);
         }
     }
 
@@ -107,6 +255,28 @@ public class TeamLeaderController {
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderViewReports());
             teamLeaderView.getTeamLeaderViewReports().setVisible(true);
         }
+
+        private void initializeViewReportsView() {
+            ViewReportsView = new TL_ViewReports();
+            fillViewReportsList();
+            ViewReportsView.addReportListMouseAdapter(new ReportsListMouseListener());
+        }
+
+        @SuppressWarnings("unchecked")
+        private void fillViewReportsList() {
+            JList<String> ReportList = ViewReportsView.getReportList();
+
+            List<Report> reports = teamLeaderModel.getReportsForLeader();
+
+            DefaultListModel listModel = new DefaultListModel();
+
+            for (Report report : reports) {
+                listModel.addElement(report.getReportName());
+                ReportList.setModel(listModel);
+            }
+
+            ViewReportsView.setReportList(ReportList);
+        }
     }
 
     class ViewTasksActionListener implements ActionListener {
@@ -117,6 +287,44 @@ public class TeamLeaderController {
             teamLeaderView.setTeamLeaderViewTasks(ViewTasksView);
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderViewTasks());
             teamLeaderView.getTeamLeaderViewTasks().setVisible(true);
+        }
+
+        private void initializeViewTasksView() {
+            ViewTasksView = new TL_ViewTasks();
+            fillViewTasksTable();
+        }
+
+        private void fillViewTasksTable() {
+            JTable TaskTable = ViewTasksView.getTaskTable();
+
+            DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
+
+            List<Task> tasks = teamLeaderModel.getTasksForItsEmployees();
+
+            Object rowData[] = new Object[7];
+            tasks.stream().map(task -> {
+                rowData[0] = task.getTask_id();
+                return task;
+            }).map(task -> {
+                rowData[1] = task.getTask_name();
+                return task;
+            }).map(task -> {
+                rowData[2] = task.isTask_completed();
+                return task;
+            }).map(task -> {
+                rowData[3] = task.getTask_info();
+                return task;
+            }).map(task -> {
+                rowData[4] = teamLeaderModel.findEmployeeById(task.getEmployee_id()).getName();
+                return task;
+            }).map(task -> {
+                rowData[5] = task.getEmployee_id();
+                return task;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            ViewTasksView.setTaskTable(TaskTable);
         }
     }
 
@@ -129,6 +337,37 @@ public class TeamLeaderController {
             teamLeaderView.AddToDesktop(teamLeaderView.getTeamLeaderViewVacations());
             teamLeaderView.getTeamLeaderViewVacations().setVisible(true);
         }
+
+        private void initializeViewVacationsView() {
+            ViewVacationsView = new TL_ViewVacations();
+            fillViewVacationsTable();
+        }
+
+        private void fillViewVacationsTable() {
+            JTable VacationTable = ViewVacationsView.getVacationTable();
+
+            DefaultTableModel tableModel = (DefaultTableModel) VacationTable.getModel();
+            List<Vacation> vacations = teamLeaderModel.getVacationRequests();
+
+            Object rowData[] = new Object[4];
+            vacations.stream().map(vacation -> {
+                rowData[0] = vacation.getID();
+                return vacation;
+            }).map(vacation -> {
+                rowData[1] = vacation.getVacationStart();
+                return vacation;
+            }).map(vacation -> {
+                rowData[2] = vacation.getVacationEnd();
+                return vacation;
+            }).map(vacation -> {
+                rowData[3] = vacation.getEmployeeID();
+                return vacation;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            ViewVacationsView.setVacationTable(VacationTable);
+        }
     }
 
     //InternalFrames Listeners
@@ -138,12 +377,12 @@ public class TeamLeaderController {
             JTable EmployeeTable = AssignTasksView.getEmployeeTable();
 
             EmployeeTable.setColumnSelectionInterval(WIDTH, WIDTH);
-            int i = EmployeeTable.getSelectedRow();
+            int selectedIndex = EmployeeTable.getSelectedRow();
             TableModel tableModel = EmployeeTable.getModel();
 
-            System.out.println(i);
+            System.out.println(selectedIndex);
 
-            AssignTasksView.setEmployeeIDInput(tableModel.getValueAt(i, 1).toString());
+            AssignTasksView.setEmployeeIDInput(tableModel.getValueAt(selectedIndex, 1).toString());
         }
     }
 
@@ -192,11 +431,11 @@ public class TeamLeaderController {
             JTable RequestsTable = ManageVacationsView.getRequestsTable();
 
             RequestsTable.setColumnSelectionInterval(WIDTH, WIDTH);
-            int i = RequestsTable.getSelectedRow();
+            int selectedIndex = RequestsTable.getSelectedRow();
             TableModel tableModel = RequestsTable.getModel();
 
-            ManageVacationsView.setEmployeeIDInput(tableModel.getValueAt(i, 0).toString());
-            ManageVacationsView.setEmployeeNameInput(tableModel.getValueAt(i, 1).toString());
+            ManageVacationsView.setEmployeeIDInput(tableModel.getValueAt(selectedIndex, 0).toString());
+            ManageVacationsView.setEmployeeNameInput(tableModel.getValueAt(selectedIndex, 1).toString());
         }
     }
 
@@ -205,14 +444,14 @@ public class TeamLeaderController {
         public void actionPerformed(ActionEvent e) {
             JTable RequestsTable = ManageVacationsView.getRequestsTable();
 
-            int i = RequestsTable.getSelectedRow();
+            int selectedIndex = RequestsTable.getSelectedRow();
             DefaultTableModel tableModel = (DefaultTableModel) RequestsTable.getModel();
 
             Object rowData[] = new Object[4];
-            rowData[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
-            rowData[1] = tableModel.getValueAt(i, 1).toString();
-            rowData[2] = tableModel.getValueAt(i, 2).toString();
-            rowData[3] = tableModel.getValueAt(i, 3).toString();
+            rowData[0] = Integer.parseInt(tableModel.getValueAt(selectedIndex, 0).toString());
+            rowData[1] = tableModel.getValueAt(selectedIndex, 1).toString();
+            rowData[2] = tableModel.getValueAt(selectedIndex, 2).toString();
+            rowData[3] = tableModel.getValueAt(selectedIndex, 3).toString();
             if (RequestsTable.getSelectedRowCount() == 1) {
                 tableModel.removeRow(RequestsTable.getSelectedRow());
             }
@@ -229,15 +468,15 @@ public class TeamLeaderController {
             JTable RequestsTable = ManageVacationsView.getRequestsTable();
 
             int i = RequestsTable.getSelectedRow();
-            DefaultTableModel model2 = (DefaultTableModel) RequestsTable.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) RequestsTable.getModel();
 
             Object rowData[] = new Object[4];
-            rowData[0] = Integer.parseInt(model2.getValueAt(i, 0).toString());
-            rowData[1] = model2.getValueAt(i, 1).toString();
-            rowData[2] = model2.getValueAt(i, 2).toString();
-            rowData[3] = model2.getValueAt(i, 3).toString();
+            rowData[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
+            rowData[1] = tableModel.getValueAt(i, 1).toString();
+            rowData[2] = tableModel.getValueAt(i, 2).toString();
+            rowData[3] = tableModel.getValueAt(i, 3).toString();
             if (RequestsTable.getSelectedRowCount() == 1) {
-                model2.removeRow(RequestsTable.getSelectedRow());
+                tableModel.removeRow(RequestsTable.getSelectedRow());
             }
 
             teamLeaderModel.denyVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));
@@ -264,238 +503,4 @@ public class TeamLeaderController {
         }
     }
 
-    private void initializeAssignTasksView() {
-        AssignTasksView = new TL_AssignTasks();
-        fillAssignTasksEmployeeTable();
-
-        AssignTasksView.addAssignTaskButtonActionListener(new AssignTaskButtonActionListener());
-        AssignTasksView.addEmployeeTableMouseAdapter(new AssignTasksEmployeeTableMouseListener());
-    }
-
-    private void initializeManagePenalitiesView() {
-        ManagePenalitiesView = new TL_ManagePenalities();
-        fillManagePenalitiesEmployeeTable();
-
-        ManagePenalitiesView.addAssignPenalityButtonActionListener(new AssignPenalityButtonActionListener());
-        ManagePenalitiesView.addEmployeeTableMouseAdapter(new ManagePenalitiesEmployeeTableMouseListener());
-    }
-
-    private void initializeManageVacationsView() {
-        ManageVacationsView = new TL_ManageVacations();
-        fillManageVacationsRequestsTable();
-        
-        ManageVacationsView.addRequestsTableMouseListener(new VacationRequestsTableMouseListener());
-        ManageVacationsView.addAcceptVacationButtonActionListener(new AcceptVacationButtonActionListener());
-        ManageVacationsView.addDenyVacationButtonActionListener(new DenyVacationButtonActionListener());
-    }
-
-    private void initializeViewPenalitiesView() {
-        ViewPenalitiesView = new TL_ViewPenalities();
-        fillViewPenalitiesPenalityTable();
-    }
-
-    private void initializeViewReportsView() {
-        ViewReportsView = new TL_ViewReports();
-        fillViewReportsList();
-        ViewReportsView.addReportListMouseAdapter(new ReportsListMouseListener());
-    }
-
-    private void initializeViewTasksView() {
-        ViewTasksView = new TL_ViewTasks();
-        fillViewTasksTable();
-    }
-
-    private void initializeViewVacationsView() {
-        ViewVacationsView = new TL_ViewVacations();
-        fillViewVacationsTable();
-    }
-
-    private void fillAssignTasksEmployeeTable() {
-        JTable EmployeeTable = AssignTasksView.getEmployeeTable();
-
-        List<EmployeeModel> employees = teamLeaderModel.getEmployees(teamLeaderModel.getID());
-        DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
-
-        Object rowData[] = new Object[4];
-        employees.stream().map(employee -> {
-            rowData[0] = employee.getName();
-            return employee;
-        }).map(employee -> {
-            rowData[1] = employee.getID();
-            return employee;
-        }).map(employee -> {
-            rowData[2] = employee.getSalary();
-            return employee;
-        }).map(employee -> {
-            rowData[3] = employee.getAge();
-            return employee;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        AssignTasksView.setEmployeeTable(EmployeeTable);
-    }
-
-    private void fillManagePenalitiesEmployeeTable() {
-        JTable EmployeeTable = ManagePenalitiesView.getEmployeeTable();
-
-        List<EmployeeModel> employees = teamLeaderModel.getEmployees(teamLeaderModel.getID());
-        DefaultTableModel tableModel = (DefaultTableModel) EmployeeTable.getModel();
-
-        Object rowDate[] = new Object[5];
-        employees.stream().map(employee -> {
-            rowDate[0] = employee.getID();
-            System.out.println(employee.getID());
-            return employee;
-        }).map(employee -> {
-            rowDate[1] = employee.getName();
-            return employee;
-        }).map(employee -> {
-            rowDate[2] = employee.getCompletedTasksForEmployee(employee.getID()).size();
-            return employee;
-        }).map(employee -> {
-            rowDate[3] = employee.getNotCompletedTasksForEmployee(employee.getID()).size();
-            return employee;
-        }).map(employee -> {
-            rowDate[4] = employee.getPenalities().size();
-            return employee;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowDate);
-        });
-
-        ManagePenalitiesView.setEmployeeTable(EmployeeTable);
-    }
-
-    private void fillManageVacationsRequestsTable() {
-        JTable RequestsTable = ManageVacationsView.getRequestsTable();
-
-        //List<EmployeeModel> employee = teamLeaderModel.getEmployees(teamLeaderModel.getID());
-        List<Vacation> vacations = teamLeaderModel.getVacationRequests();
-
-        //model.findEmployeeById(vacations.get(0).getEmployeeID()).getName();
-        DefaultTableModel tableModel = (DefaultTableModel) RequestsTable.getModel();
-
-        Object rowData[] = new Object[4];
-        vacations.stream().map(vacation -> {
-            rowData[0] = vacation.getEmployeeID();
-            return vacation;
-        }).map(vacation -> {
-            rowData[1] = teamLeaderModel.findEmployeeById(vacation.getEmployeeID()).getName();
-            return vacation;
-        }).map(vacation -> {
-            rowData[2] = vacation.getVacationStart();
-            return vacation;
-        }).map(vacation -> {
-            rowData[3] = vacation.getVacationEnd();
-            return vacation;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        ManageVacationsView.setRequestsTable(RequestsTable);
-    }
-
-    private void fillViewPenalitiesPenalityTable() {
-        JTable PenalityTable = ViewPenalitiesView.getPenalityTable();
-
-        List<Penality> penalities = teamLeaderModel.getPenalities();
-
-        DefaultTableModel tableModel = (DefaultTableModel) PenalityTable.getModel();
-
-        Object rowData[] = new Object[5];
-        penalities.stream().map(penality -> {
-            rowData[0] = penality.getPenalityID();
-            return penality;
-        }).map(penality -> {
-            rowData[1] = penality.getReason();
-            return penality;
-        }).map(penality -> {
-            rowData[2] = penality.getPenality();
-            return penality;
-        }).map(_item -> {
-            rowData[3] = teamLeaderModel.findEmployeeById(_item.getEmployeeID()).getName();
-            return _item;
-        }).map(_item -> {
-            rowData[4] = _item.getEmployeeID();
-            return _item;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        ViewPenalitiesView.setPenalityTable(PenalityTable);
-    }
-
-    private void fillViewReportsList() {
-        JList<String> ReportList = ViewReportsView.getReportList();
-
-        List<Report> reports = teamLeaderModel.getReportsForItsEmployees();
-
-        DefaultListModel listModel = new DefaultListModel();
-
-        for (Report report : reports) {
-            listModel.addElement(report.getReportName());
-            ReportList.setModel(listModel);
-        }
-
-        ViewReportsView.setReportList(ReportList);
-    }
-
-    private void fillViewTasksTable() {
-        JTable TaskTable = ViewTasksView.getTaskTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
-
-        List<Task> tasks = teamLeaderModel.getTasksForItsEmployees();
-
-        Object rowData[] = new Object[7];
-        tasks.stream().map(task -> {
-            rowData[0] = task.getTask_id();
-            return task;
-        }).map(task -> {
-            rowData[1] = task.getTask_name();
-            return task;
-        }).map(task -> {
-            rowData[2] = task.isTask_completed();
-            return task;
-        }).map(task -> {
-            rowData[3] = task.getTask_info();
-            return task;
-        }).map(task -> {
-            rowData[4] = teamLeaderModel.findEmployeeById(task.getEmployee_id()).getName();
-            return task;
-        }).map(task -> {
-            rowData[5] = task.getEmployee_id();
-            return task;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        ViewTasksView.setTaskTable(TaskTable);
-    }
-
-    private void fillViewVacationsTable() {
-        JTable VacationTable = ViewVacationsView.getVacationTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) VacationTable.getModel();
-        List<Vacation> vacations = teamLeaderModel.getVacationRequests();
-
-        Object rowData[] = new Object[4];
-        vacations.stream().map(vacation -> {
-            rowData[0] = vacation.getID();
-            return vacation;
-        }).map(vacation -> {
-            rowData[1] = vacation.getVacationStart();
-            return vacation;
-        }).map(vacation -> {
-            rowData[2] = vacation.getVacationEnd();
-            return vacation;
-        }).map(vacation -> {
-            rowData[3] = vacation.getEmployeeID();
-            return vacation;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        ViewVacationsView.setVacationTable(VacationTable);
-    }
 }

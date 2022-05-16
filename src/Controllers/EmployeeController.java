@@ -1,6 +1,5 @@
 package Controllers;
 
-import Models.PersonModel;
 import Views.Frames.EmployeeView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import Views.InternalFrames.EM_ManageTasks;
 import Views.InternalFrames.EM_RequestVacation;
 import Views.InternalFrames.EM_ViewPenalities;
 import Views.InternalFrames.EM_WorkingHours;
-import Views.Frames.LoginView;
 import com.toedter.calendar.JCalendar;
 import java.sql.Timestamp;
 import java.util.List;
@@ -24,110 +22,26 @@ import javax.swing.table.TableModel;
 
 public class EmployeeController {
 
-    private EmployeeView view;
-    private EmployeeModel model;
-    EM_ManageTasks ManageTasksView;
-    EM_RequestVacation RequestVacation;
-    EM_ViewPenalities ViewPenalities;
-    EM_WorkingHours WorkingHours;
+    private EmployeeView employeeView;
+    private EmployeeModel employeeModel;
+    EM_ManageTasks manageTasksView;
+    EM_RequestVacation requestVacation;
+    EM_ViewPenalities viewPenalities;
+    EM_WorkingHours workingHours;
 
     public EmployeeController(EmployeeView EmployeeView, EmployeeModel EmployeeModel) {
-        this.view = EmployeeView;
-        this.model = EmployeeModel;
+        this.employeeView = EmployeeView;
+        this.employeeModel = EmployeeModel;
 
-        this.view.AddExitListener(new ExitButtonListener());
-        this.view.AddManageTasksListener(new ManageTaskListener());
-        this.view.AddRequestVacationsListener(new RequestVacationsListener());
-        this.view.AddViewPenalitiesListener(new ViewPenalitiesListener());
-        this.view.AddWorkingHoursListener(new WorkingHoursListener());
-
+        addAllEmployeeViewFrameListeners();
     }
 
-    private void initializeManageTask() {
-        ManageTasksView = new EM_ManageTasks();
-        fillTaskTables();
-        ManageTasksView.AddUpdateTaskListener(new UpdateTaskListener());
-    }
-
-    private void initializeRequestVacation() {
-        RequestVacation = new EM_RequestVacation();
-        RequestVacation.AddRequestVacationListener(new RequestVacationListener());
-    }
-    
-    private void initializeViewPenalities(){
-        ViewPenalities = new EM_ViewPenalities();
-        fillPenalityTable();
-    }
-    
-    private void initializeWorkingHours(){
-        WorkingHours = new EM_WorkingHours();
-        WorkingHours.AddIdentifyWorkingHoursListener(new WorkingHoursActionListener());
-    }
-    
-    private void fillTaskTables() {
-        JTable AssignedTasks = ManageTasksView.getAssignedTasks();
-        JTable CompletedTasks = ManageTasksView.getCompletedTasks();
-
-        List<Task> notCompletedTask = model.getNotCompletedTasksForEmployee(model.getID());
-        List<Task> completedTask = model.getCompletedTasksForEmployee(model.getID());
-
-        DefaultTableModel assignedTableodel = (DefaultTableModel) AssignedTasks.getModel();
-
-        Object[] rowDataAssigned = new Object[4];
-        notCompletedTask.stream().map(task -> {
-            rowDataAssigned[0] = task.getTask_id();
-            return task;
-        }).map(task -> {
-            rowDataAssigned[1] = task.getTask_name();
-            return task;
-        }).map(task -> {
-            rowDataAssigned[2] = task.getTask_info();
-            return task;
-        }).forEachOrdered(_item -> {
-            assignedTableodel.addRow(rowDataAssigned);
-        });
-
-        DefaultTableModel completedTableodel = (DefaultTableModel) CompletedTasks.getModel();
-
-        Object rowDataCompleted[] = new Object[4];
-        completedTask.stream().map(task -> {
-            rowDataCompleted[0] = task.getTask_id();
-            return task;
-        }).map(task -> {
-            rowDataCompleted[1] = task.getTask_name();
-            return task;
-        }).map(task -> {
-            rowDataCompleted[2] = task.getTask_info();
-            return task;
-        }).forEachOrdered(_item -> {
-            completedTableodel.addRow(rowDataCompleted);
-        });
-
-        ManageTasksView.setAssignedTasks(AssignedTasks);
-        ManageTasksView.setCompletedTasks(CompletedTasks);
-    }
-
-    private void fillPenalityTable() {
-        JTable ViewPenalitiesTable = ViewPenalities.getViewPenalitiesButton();
-
-        DefaultTableModel tableModel = (DefaultTableModel) ViewPenalitiesTable.getModel();
-
-        Object rowData[] = new Object[5];
-        List<Penality> penalities = model.getPenalities();
-        penalities.stream().map(penality -> {
-            rowData[0] = penality.getPenalityID();
-            return penality;
-        }).map(penality -> {
-            rowData[1] = penality.getReason();
-            return penality;
-        }).map(penality -> {
-            rowData[2] = penality.getPenality();
-            return penality;
-        }).forEachOrdered(_item -> {
-            tableModel.addRow(rowData);
-        });
-
-        ViewPenalities.setViewPenalitiesButton(ViewPenalitiesTable);
+    private void addAllEmployeeViewFrameListeners() {
+        this.employeeView.AddExitListener(new ExitButtonListener());
+        this.employeeView.AddManageTasksListener(new ManageTaskListener());
+        this.employeeView.AddRequestVacationsListener(new RequestVacationsListener());
+        this.employeeView.AddViewPenalitiesListener(new ViewPenalitiesListener());
+        this.employeeView.AddWorkingHoursListener(new WorkingHoursListener());
     }
 
     //MainFrames Listeners
@@ -136,12 +50,66 @@ public class EmployeeController {
         public void actionPerformed(ActionEvent e) {
             initializeManageTask();
 
-            view.setManageTasksView(ManageTasksView);
-            view.AddToDesktop(view.getManageTasksView());
-            view.getManageTasksView().setVisible(true);
+            employeeView.setManageTasksView(manageTasksView);
+            employeeView.AddToDesktop(employeeView.getManageTasksView());
+            employeeView.getManageTasksView().setVisible(true);
 
         }
 
+        private void initializeManageTask() {
+            manageTasksView = new EM_ManageTasks();
+            fillAssignedTasks();
+            fillCompletedTasks();
+            manageTasksView.AddUpdateTaskListener(new UpdateTaskListener());
+        }
+
+        private void fillAssignedTasks() {
+            JTable AssignedTasks = manageTasksView.getAssignedTasks();
+            List<Task> notCompletedTasks = employeeModel.getNotCompletedTasksForEmployee(employeeModel.getID());
+
+            DefaultTableModel assignedTableModel = (DefaultTableModel) AssignedTasks.getModel();
+
+            Object[] rowDataAssigned = new Object[4];
+            notCompletedTasks.stream().map(task -> {
+                rowDataAssigned[0] = task.getTask_id();
+                return task;
+            }).map(task -> {
+                rowDataAssigned[1] = task.getTask_name();
+                return task;
+            }).map(task -> {
+                rowDataAssigned[2] = task.getTask_info();
+                return task;
+            }).forEachOrdered(_item -> {
+                assignedTableModel.addRow(rowDataAssigned);
+            });
+
+            manageTasksView.setAssignedTasks(AssignedTasks);
+        }
+
+        private void fillCompletedTasks() {
+
+            JTable CompletedTasks = manageTasksView.getCompletedTasks();
+
+            List<Task> completedTask = employeeModel.getCompletedTasksForEmployee(employeeModel.getID());
+
+            DefaultTableModel completedTableodel = (DefaultTableModel) CompletedTasks.getModel();
+
+            Object rowDataCompleted[] = new Object[4];
+            completedTask.stream().map(task -> {
+                rowDataCompleted[0] = task.getTask_id();
+                return task;
+            }).map(task -> {
+                rowDataCompleted[1] = task.getTask_name();
+                return task;
+            }).map(task -> {
+                rowDataCompleted[2] = task.getTask_info();
+                return task;
+            }).forEachOrdered(_item -> {
+                completedTableodel.addRow(rowDataCompleted);
+            });
+
+            manageTasksView.setCompletedTasks(CompletedTasks);
+        }
     }
 
     class RequestVacationsListener implements ActionListener {
@@ -149,33 +117,69 @@ public class EmployeeController {
         public void actionPerformed(ActionEvent e) {
             initializeRequestVacation();
 
-            view.setRequestVacationsView(RequestVacation);
-            view.AddToDesktop(view.getRequestVacationsView());
-            view.getRequestVacationsView().setVisible(true);
+            employeeView.setRequestVacationsView(requestVacation);
+            employeeView.AddToDesktop(employeeView.getRequestVacationsView());
+            employeeView.getRequestVacationsView().setVisible(true);
         }
 
+        private void initializeRequestVacation() {
+            requestVacation = new EM_RequestVacation();
+            requestVacation.AddRequestVacationListener(new RequestVacationListener());
+        }
     }
 
     class ViewPenalitiesListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             initializeViewPenalities();
-            
-            view.setViewPenalitiesView(ViewPenalities);
-            view.AddToDesktop(view.getViewPenalitiesView());
-            view.getViewPenalitiesView().setVisible(true);
+
+            employeeView.setViewPenalitiesView(viewPenalities);
+            employeeView.AddToDesktop(employeeView.getViewPenalitiesView());
+            employeeView.getViewPenalitiesView().setVisible(true);
         }
 
+        private void initializeViewPenalities() {
+            viewPenalities = new EM_ViewPenalities();
+            fillPenalityTable();
+        }
+
+        private void fillPenalityTable() {
+            JTable penalitiesTable = viewPenalities.getViewPenalitiesButton();
+
+            DefaultTableModel tableModel = (DefaultTableModel) penalitiesTable.getModel();
+
+            Object rowData[] = new Object[5];
+            List<Penality> penalities = employeeModel.getPenalities();
+            penalities.stream().map(penality -> {
+                rowData[0] = penality.getPenalityID();
+                return penality;
+            }).map(penality -> {
+                rowData[1] = penality.getReason();
+                return penality;
+            }).map(penality -> {
+                rowData[2] = penality.getPenality();
+                return penality;
+            }).forEachOrdered(_item -> {
+                tableModel.addRow(rowData);
+            });
+
+            viewPenalities.setViewPenalitiesButton(penalitiesTable);
+        }
     }
 
     class WorkingHoursListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             initializeWorkingHours();
-            
-            view.setWorkingHoursView(WorkingHours);
-            view.AddToDesktop(view.getWorkingHoursView());
-            view.getWorkingHoursView().setVisible(true);
+
+            employeeView.setWorkingHoursView(workingHours);
+            employeeView.AddToDesktop(employeeView.getWorkingHoursView());
+            employeeView.getWorkingHoursView().setVisible(true);
+        }
+
+        private void initializeWorkingHours() {
+            workingHours = new EM_WorkingHours();
+            workingHours.AddIdentifyWorkingHoursListener(new WorkingHoursActionListener());
         }
 
     }
@@ -184,7 +188,7 @@ public class EmployeeController {
 
         public void actionPerformed(ActionEvent e) {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            model.submitAttendance(timestamp);
+            employeeModel.submitAttendance(timestamp);
             System.exit(0);
         }
 
@@ -194,33 +198,46 @@ public class EmployeeController {
     class UpdateTaskListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            JTable AssignedTasks = ManageTasksView.getAssignedTasks();
-            JTable CompletedTasks = ManageTasksView.getCompletedTasks();
+            updateCompletedTasksTable();
+            updateAssignedTasksTable();
+        }
+
+        private void updateAssignedTasksTable() {
+            JTable AssignedTasks = manageTasksView.getAssignedTasks();
+
+            TableModel tableModel = AssignedTasks.getModel();
+            int selectedIndex = AssignedTasks.getSelectedRow();
+
+            DefaultTableModel assignedModel = (DefaultTableModel) AssignedTasks.getModel();
+            Object rowDate[] = new Object[4];
+            rowDate[0] = Integer.parseInt(tableModel.getValueAt(selectedIndex, 0).toString());
+            rowDate[1] = tableModel.getValueAt(selectedIndex, 1).toString();
+            rowDate[2] = tableModel.getValueAt(selectedIndex, 2).toString();
+            if (AssignedTasks.getSelectedRowCount() == 1) {
+                assignedModel.removeRow(AssignedTasks.getSelectedRow());
+            }
+
+            manageTasksView.setAssignedTasks(AssignedTasks);
+        }
+
+        private void updateCompletedTasksTable() {
+            JTable AssignedTasks = manageTasksView.getAssignedTasks();
+            JTable CompletedTasks = manageTasksView.getCompletedTasks();
 
             TableModel tableModel = AssignedTasks.getModel();
 
             int i = AssignedTasks.getSelectedRow();
 
-            model.submitCompletedTask(Integer.parseInt(tableModel.getValueAt(i, 0).toString()));
-            DefaultTableModel model1 = (DefaultTableModel) CompletedTasks.getModel();
+            employeeModel.submitCompletedTask(Integer.parseInt(tableModel.getValueAt(i, 0).toString()));
+            DefaultTableModel completedModel = (DefaultTableModel) CompletedTasks.getModel();
 
             Object rowDate1[] = new Object[3];
             rowDate1[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
             rowDate1[1] = tableModel.getValueAt(i, 1).toString();
             rowDate1[2] = tableModel.getValueAt(i, 2).toString();
-            model1.addRow(rowDate1);
+            completedModel.addRow(rowDate1);
 
-            DefaultTableModel model2 = (DefaultTableModel) AssignedTasks.getModel();
-            Object rowDate[] = new Object[4];
-            rowDate[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
-            rowDate[1] = tableModel.getValueAt(i, 1).toString();
-            rowDate[2] = tableModel.getValueAt(i, 2).toString();
-            if (AssignedTasks.getSelectedRowCount() == 1) {
-                model2.removeRow(AssignedTasks.getSelectedRow());
-            }
-
-            ManageTasksView.setAssignedTasks(AssignedTasks);
-            ManageTasksView.setCompletedTasks(CompletedTasks);
+            manageTasksView.setCompletedTasks(CompletedTasks);
         }
 
     }
@@ -228,14 +245,14 @@ public class EmployeeController {
     class RequestVacationListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            JCalendar jCalendar1 = RequestVacation.getjCalendar1();
-            JCalendar jCalendar2 = RequestVacation.getjCalendar2();
+            JCalendar fromCalender = requestVacation.getFromCalendar();
+            JCalendar toCalender = requestVacation.getToCalendar();
 
-            java.util.Date utilDate1 = new java.util.Date(jCalendar1.getYearChooser().getValue() - 1900, jCalendar1.getMonthChooser().getMonth(), jCalendar1.getDayChooser().getDay());
+            java.util.Date utilDate1 = new java.util.Date(fromCalender.getYearChooser().getValue() - 1900, fromCalender.getMonthChooser().getMonth(), fromCalender.getDayChooser().getDay());
             java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
-            java.util.Date utilDate = new java.util.Date(jCalendar2.getYearChooser().getValue() - 1900, jCalendar2.getMonthChooser().getMonth(), jCalendar2.getDayChooser().getDay());
+            java.util.Date utilDate = new java.util.Date(toCalender.getYearChooser().getValue() - 1900, toCalender.getMonthChooser().getMonth(), toCalender.getDayChooser().getDay());
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            model.requestVacation(sqlDate1, sqlDate);
+            employeeModel.requestVacation(sqlDate1, sqlDate);
             JOptionPane.showMessageDialog(null, "This vacation has been requested successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
 
         }
@@ -245,8 +262,8 @@ public class EmployeeController {
     class WorkingHoursActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            JComboBox<String> Month = WorkingHours.getMonthComboBox();
-            JTextField workingHoursText = WorkingHours.getjWorkingHours();
+            JComboBox<String> Month = workingHours.getMonthComboBox();
+            JTextField workingHoursText = workingHours.getWorkingHours();
             String month = Month.getSelectedItem().toString();
             int monthValue = 0;
             switch (month) {
@@ -289,9 +306,9 @@ public class EmployeeController {
 
             }
 
-            double Hours = model.getWorkingHrsPerMonth(model.getID(), monthValue);
+            double Hours = employeeModel.getWorkingHrsPerMonth(employeeModel.getID(), monthValue);
             workingHoursText.setText("" + Hours);
-            WorkingHours.setjWorkingHours(workingHoursText);
+            workingHours.setWorkingHours(workingHoursText);
         }
 
     }

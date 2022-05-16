@@ -7,7 +7,6 @@ public class Task {
     private String task_info;
     private boolean task_completed;
     private int employee_id;
-  
 
     public Task(int task_id, String task_name, String task_info, int employee_id,boolean task_completed ) {
         this.task_id = task_id;

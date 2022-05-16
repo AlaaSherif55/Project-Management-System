@@ -6,12 +6,8 @@ import Models.Report;
 import Models.Task;
 import Models.TeamLeaderModel;
 import Models.Vacation;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +36,8 @@ public class TeamLeaderRepository {
 
     }
 
-    public static void assignTask(String name, String info, int id_employee, int id_p) {
-        String insertSql = "INSERT INTO task (task_name,explanation,id_employee,id_project) VALUES ('" + name + "','" + info + "'," + id_employee + "," + id_p + ");";
+    public static void assignTask(String name, String info, int id_employee, int id_project) {
+        String insertSql = "INSERT INTO task (task_name,explanation,id_employee,id_project) VALUES ('" + name + "','" + info + "'," + id_employee + "," + id_project + ");";
         try{
             DatabaseQuery.executeInsert(insertSql);
         }
@@ -88,7 +84,7 @@ public class TeamLeaderRepository {
     }
 
     public static List<Vacation> getVacationRequests(int teamLeaderID) {
-        List<Vacation> vacationList = new ArrayList<>();
+        List<Vacation> vacations = new ArrayList<>();
         String selectSql = "SELECT dbo.person.id, person_1.manager_ID, person_1.fname, dbo.vacation.vac_id, dbo.vacation.[from], dbo.vacation.[to], dbo.vacation.employee_id, dbo.vacation.confirmed\n"
                 + "FROM     dbo.person INNER JOIN\n"
                 + "                  dbo.person AS person_1 ON dbo.person.id = person_1.manager_ID INNER JOIN\n"
@@ -104,7 +100,7 @@ public class TeamLeaderRepository {
                 boolean confirmed = resultSet.getBoolean("confirmed");
                 Vacation vacation = new Vacation(vacationID, from, to, employeeID);
                 if (confirmed) {
-                    vacationList.add(vacation);
+                    vacations.add(vacation);
                 }
             }
 
@@ -112,14 +108,14 @@ public class TeamLeaderRepository {
             exception.printStackTrace();
         }
 
-        return vacationList;
+        return vacations;
 
     }
 
     public static void acceptVacation(int employeeID) {
-        String query = "update vacation set confirmed='"+true+"' where  employee_id="+employeeID;
+        String updateSQL = "update vacation set confirmed='"+true+"' where  employee_id="+employeeID;
         try{
-            DatabaseQuery.executeUpdate(query);
+            DatabaseQuery.executeUpdate(updateSQL);
         } catch (SQLException ex) {
             Logger.getLogger(TeamLeaderModel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -128,17 +124,17 @@ public class TeamLeaderRepository {
 
     public static void denyVacation(int employeeID) {
 
-        String query = "update vacation set confirmed='"+false+"' where  employee_id="+employeeID;
+        String updateSQL = "update vacation set confirmed='"+false+"' where  employee_id="+employeeID;
         try{
-            DatabaseQuery.executeUpdate(query);
+            DatabaseQuery.executeUpdate(updateSQL);
         } catch (SQLException ex) {
             Logger.getLogger(TeamLeaderModel.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }
 
-    public static List<Report> getReportsForItsEmployees(int teamLeaderID) {
-        List<Report> ReportList = new ArrayList<>();
+    public static List<Report> getReportsForLeader(int teamLeaderID) {
+        List<Report> Reports = new ArrayList<>();
         String selectSql = "SELECT dbo.report.employee_id, dbo.person.id, dbo.report.details, dbo.report.reportName, dbo.report.report_id, dbo.report.id_ProjectManager, person_1.manager_ID\n"
                 + "FROM     dbo.person AS person_1 INNER JOIN\n"
                 + "                  dbo.report ON person_1.id = dbo.report.employee_id INNER JOIN\n"
@@ -152,18 +148,18 @@ public class TeamLeaderRepository {
                 int employeeID = resultSet.getInt("employee_id");
                 String reportName = resultSet.getString("reportName");
                 Report report = new Report(reportDetails, reportID, employeeID, reportName);
-                ReportList.add(report);
+                Reports.add(report);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return ReportList;
+        return Reports;
 
     }
 
     public static List<Task> getTasksForItsEmployees(int teamLeaderID) {
-        List<Task> taskList = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         String selectSql = "SELECT dbo.task.task_name, dbo.task.completed_task, dbo.task.explanation, dbo.task.id_employee, person_1.fname,person_1.lname, dbo.task.id_task\n"
                 + "FROM     dbo.person INNER JOIN\n"
                 + "                  dbo.person AS person_1 ON dbo.person.id = person_1.manager_ID INNER JOIN\n"
@@ -179,7 +175,7 @@ public class TeamLeaderRepository {
                 boolean isCompleted = resultSet.getBoolean("completed_task");
 
                 Task task = new Task(taskID, taskName, taskExplanation, employeeID, isCompleted);
-                taskList.add(task);
+                tasks.add(task);
             }
 
             //  statement.close();
@@ -187,18 +183,18 @@ public class TeamLeaderRepository {
             ex.printStackTrace();
         }
 
-        return taskList;
+        return tasks;
     }
 
     public static EmployeeModel findEmployeeById(int employeeID) {
         EmployeeModel person = null;
-        String selectSql = "SELECT * FROM person WHERE  id="+employeeID+" AND role='Employee'";
+        String selectSql = "SELECT * FROM person WHERE id="+employeeID+" AND role='Employee'";
         try{
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("id");
-                int salary = resultSet.getInt("salary");
+                double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
                 String lname = resultSet.getString("lname");
@@ -223,8 +219,8 @@ public class TeamLeaderRepository {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
             while (resultSet.next()) {
 
-                int id = resultSet.getInt("id");
-                int salary = resultSet.getInt("salary");
+                int employeeID = resultSet.getInt("id");
+                double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
                 String lname = resultSet.getString("lname");
@@ -233,7 +229,7 @@ public class TeamLeaderRepository {
                 String role = resultSet.getString("role");
                 int mangerid = resultSet.getInt("manager_ID");
                 String name = fname + " " + lname;
-                EmployeeModel employee = new EmployeeModel(id, name, age, username, password, role, salary, mangerid);
+                EmployeeModel employee = new EmployeeModel(employeeID, name, age, username, password, role, salary, mangerid);
                 employees.add(employee);
 
             }

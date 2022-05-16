@@ -16,30 +16,7 @@ public class PersonModel {
     public void setId(int id) {
         this.id = id;
     }
-
-    public PersonModel() {
-
-    }
     
-    public PersonModel(String name, int age, String username, String password, String role, double salary) {
-        this.name = name;
-        this.age = age;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.salary = salary;
-    }
-
-    public PersonModel(int id, String name, int age, String username, String password, String role, double salary) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.salary = salary;
-    }
-
     public PersonModel(int id, String name, int age, String username, String password, String role, double salary, int managerid) {
         this.id = id;
         this.age = age;
@@ -49,6 +26,14 @@ public class PersonModel {
         this.salary = salary;
         this.managerid = managerid;
         this.name = name;
+    }
+    
+    public static PersonModel createEmptyForLogin() {
+        return new PersonModel(0, "", 0, "", "", "", 0.0, 0);
+    }
+    
+    public static PersonModel preparePersonForDatabase(String name, int age, String username, String password, String role, double salary) {
+        return new PersonModel(0, name, age, username, password, role, salary, 0);
     }
 
     public int getID() {

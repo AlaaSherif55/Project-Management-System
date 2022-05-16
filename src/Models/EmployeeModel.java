@@ -3,7 +3,6 @@ import Repositories.EmployeeRepository;
 import java.util.*;
 import java.sql.*;
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 public class EmployeeModel extends PersonModel {
 
@@ -29,15 +28,17 @@ public class EmployeeModel extends PersonModel {
     public void submitAttendance(Timestamp to) {
         EmployeeRepository.submitAttendance(to);    
     }
+    
+    public double getWorkingHrsPerMonth(int id_employee, int month) {
+        return  EmployeeRepository.getWorkingHrsPerMonth(id_employee, month);
+    }
 
     public List<Task> getNotCompletedTasksForEmployee(int id_employee) {
        return  EmployeeRepository.getNotCompletedTasksForEmployee(id_employee);
     }
 
     public List<Task> getCompletedTasksForEmployee(int id_employee) {
-        
         return  EmployeeRepository.getCompletedTasksForEmployee(id_employee);
-
     }
 
     public void submitCompletedTask(int id_task) {
