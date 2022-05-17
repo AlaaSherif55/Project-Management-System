@@ -2,22 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Models/AdminModel.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/TeamLeaderRepository.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/DatabaseQuery.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/AdminRepository.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Models/TeamLeaderModel.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Models/PersonModel.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/ProjectManagerRepository.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Controllers/LoginController.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/PersonRepository.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Repositories/EmployeeRepository.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Models/ProjectManagerModel.java</file>
-            <file>file:/F:/Software%202%20Project/SE2/project2/project2/src/Models/EmployeeModel.java</file>
-        </group>
         <group name="alaa">
             <file>file:/C:/Users/Mahmoud%20Shereif/Desktop/alaa%20seTerm/ProjectManagementSystem/Project-Management-System/src/Models/ProjectManagementSystem.java</file>
+        </group>
+        <group>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/ProjectManagementSystem.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/Report.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/Penality.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/ProjectManagerModel.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Controllers/AdminController.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Controllers/ProjectManagerController.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/TeamLeaderModel.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/Task.java</file>
+            <file>file:/F:/Software%202%20Project/Github/ProjectManagementSystem/src/Models/Vacation.java</file>
         </group>
     </open-files>
 </project-private>
