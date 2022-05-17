@@ -99,6 +99,35 @@ public class TeamLeaderRepository {
                 int vacationID = resultSet.getInt("vac_id");
                 boolean confirmed = resultSet.getBoolean("confirmed");
                 Vacation vacation = new Vacation(vacationID, from, to, employeeID);
+                if (!confirmed) {
+                    vacations.add(vacation);
+                }
+            }
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+        return vacations;
+
+    }
+    
+    public static List<Vacation> getVacationsAccepted(int teamLeaderID) {
+        List<Vacation> vacations = new ArrayList<>();
+        String selectSql = "SELECT dbo.person.id, person_1.manager_ID, person_1.fname, dbo.vacation.vac_id, dbo.vacation.[from], dbo.vacation.[to], dbo.vacation.employee_id, dbo.vacation.confirmed\n"
+                + "FROM     dbo.person INNER JOIN\n"
+                + "                  dbo.person AS person_1 ON dbo.person.id = person_1.manager_ID INNER JOIN\n"
+                + "                  dbo.vacation ON person_1.id = dbo.vacation.employee_id\n"
+                + "WHERE  (person_1.manager_ID = "+teamLeaderID+")";
+        try{
+            ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
+            while (resultSet.next()) {
+                Date from = resultSet.getDate("from");
+                Date to = resultSet.getDate("to");
+                int employeeID = resultSet.getInt("employee_id");
+                int vacationID = resultSet.getInt("vac_id");
+                boolean confirmed = resultSet.getBoolean("confirmed");
+                Vacation vacation = new Vacation(vacationID, from, to, employeeID);
                 if (confirmed) {
                     vacations.add(vacation);
                 }
@@ -124,9 +153,9 @@ public class TeamLeaderRepository {
 
     public static void denyVacation(int employeeID) {
 
-        String updateSQL = "update vacation set confirmed='"+false+"' where  employee_id="+employeeID;
+        String deleteSQL = "DELETE FROM vacation WHERE employee_id="+employeeID;
         try{
-            DatabaseQuery.executeUpdate(updateSQL);
+            DatabaseQuery.executeDelete(deleteSQL);
         } catch (SQLException ex) {
             Logger.getLogger(TeamLeaderModel.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -207,6 +236,7 @@ public class TeamLeaderRepository {
 
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         return person;
 
@@ -234,7 +264,7 @@ public class TeamLeaderRepository {
 
             }
         } catch (SQLException ex) {
-            
+            ex.printStackTrace();
         }
         return employees;
 

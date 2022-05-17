@@ -13,6 +13,4 @@ public class ProjectManagementSystem {
         LoginController controller = new LoginController(view, model);
         view.setVisible(true);
     }
-    
-  
 }

@@ -133,7 +133,7 @@ public class ProjectManagerRepository{
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("id");
-                int salary = resultSet.getInt("salary");
+                double salary = resultSet.getDouble("salary");
                 String fname = resultSet.getString("fname");
                 int age = resultSet.getInt("age");
                 String lname = resultSet.getString("lname");

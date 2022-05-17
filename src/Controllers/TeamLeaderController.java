@@ -347,7 +347,7 @@ public class TeamLeaderController {
             JTable VacationTable = ViewVacationsView.getVacationTable();
 
             DefaultTableModel tableModel = (DefaultTableModel) VacationTable.getModel();
-            List<Vacation> vacations = teamLeaderModel.getVacationRequests();
+            List<Vacation> vacations = teamLeaderModel.getVacationsAccepted();
 
             Object rowData[] = new Object[4];
             vacations.stream().map(vacation -> {
@@ -379,8 +379,6 @@ public class TeamLeaderController {
             EmployeeTable.setColumnSelectionInterval(WIDTH, WIDTH);
             int selectedIndex = EmployeeTable.getSelectedRow();
             TableModel tableModel = EmployeeTable.getModel();
-
-            System.out.println(selectedIndex);
 
             AssignTasksView.setEmployeeIDInput(tableModel.getValueAt(selectedIndex, 1).toString());
         }
@@ -434,8 +432,10 @@ public class TeamLeaderController {
             int selectedIndex = RequestsTable.getSelectedRow();
             TableModel tableModel = RequestsTable.getModel();
 
-            ManageVacationsView.setEmployeeIDInput(tableModel.getValueAt(selectedIndex, 0).toString());
-            ManageVacationsView.setEmployeeNameInput(tableModel.getValueAt(selectedIndex, 1).toString());
+            if (selectedIndex > -1) {
+                ManageVacationsView.setEmployeeIDInput(tableModel.getValueAt(selectedIndex, 0).toString());
+                ManageVacationsView.setEmployeeNameInput(tableModel.getValueAt(selectedIndex, 1).toString());
+            }
         }
     }
 
@@ -469,14 +469,15 @@ public class TeamLeaderController {
 
             int i = RequestsTable.getSelectedRow();
             DefaultTableModel tableModel = (DefaultTableModel) RequestsTable.getModel();
-
-            Object rowData[] = new Object[4];
-            rowData[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
-            rowData[1] = tableModel.getValueAt(i, 1).toString();
-            rowData[2] = tableModel.getValueAt(i, 2).toString();
-            rowData[3] = tableModel.getValueAt(i, 3).toString();
-            if (RequestsTable.getSelectedRowCount() == 1) {
-                tableModel.removeRow(RequestsTable.getSelectedRow());
+            if (tableModel.getRowCount() >= 1) {
+                Object rowData[] = new Object[4];
+                rowData[0] = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
+                rowData[1] = tableModel.getValueAt(i, 1).toString();
+                rowData[2] = tableModel.getValueAt(i, 2).toString();
+                rowData[3] = tableModel.getValueAt(i, 3).toString();
+                if (RequestsTable.getSelectedRowCount() == 1) {
+                    tableModel.removeRow(RequestsTable.getSelectedRow());
+                }
             }
 
             teamLeaderModel.denyVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));

@@ -40,6 +40,10 @@ public class TeamLeaderModel extends PersonModel {
     public List<Vacation> getVacationRequests() {
         return TeamLeaderRepository.getVacationRequests(this.getID());
     }
+    
+    public List<Vacation> getVacationsAccepted() {
+        return TeamLeaderRepository.getVacationsAccepted(this.getID());
+    }
 
     public void acceptVacation(int employeeID) {
         TeamLeaderRepository.acceptVacation(employeeID);
