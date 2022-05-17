@@ -4,6 +4,7 @@ import Models.Attendance;
 import Models.EmployeeModel;
 import Models.Penality;
 import Models.Task;
+import Models.Vacation;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -157,14 +158,49 @@ public class EmployeeRepository {
 
     }
 
-    public static void requestVacation(Date from, Date to, int id_employee) {
+    public static int requestVacation(Date from, Date to, int id_employee) {
         String insertSql = "INSERT INTO vacation ([from], [to], employee_id) VALUES ('"+ from +"','"+ to +"',"+ id_employee +")";
-        //String insertSql = "INSERT INTO vacation ('from', 'to' , id_employee,0 )";
         try{
-            DatabaseQuery.executeInsert(insertSql);
+            if(hasVacation(id_employee) == -1)
+                DatabaseQuery.executeInsert(insertSql);
         } // Handle any errors that may have occurred.
         catch (SQLException ex) {
             Logger.getLogger(EmployeeModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return hasVacation(id_employee);
+    }
+    
+    public static int hasVacation(int id_employee) {
+        String selectSql = "SELECT * FROM vacation WHERE employee_id = " + id_employee;
+        //String insertSql = "INSERT INTO vacation ('from', 'to' , id_employee,0 )";
+        try{
+            ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
+            if(resultSet.next())
+                return resultSet.getBoolean("confirmed") ? 1 : 0;
+        } // Handle any errors that may have occurred.
+        catch (SQLException ex) {
+            Logger.getLogger(EmployeeModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+    
+    public static Vacation getVacation(int employeeID) {
+        Vacation vacation = null;
+        try{
+            String selectSql = "SELECT * FROM vacation where employee_id=" + employeeID;
+            ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
+            while (resultSet.next()) {
+                java.util.Date from = resultSet.getDate("from");
+                java.util.Date to = resultSet.getDate("to");
+                int vacationID = resultSet.getInt("vac_id");
+                vacation = new Vacation(vacationID, from, to, employeeID);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return vacation;
+
     }
 }

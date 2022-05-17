@@ -19,6 +19,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -260,36 +261,39 @@ public class AdminController {
     class ProjectListMouseListener extends MouseAdapter {
 
         public void mouseClicked(MouseEvent evt) {
-            JList<String> ProjectList = admin_Projects.getProjectList();
-            JTable TaskTable = admin_Projects.getTaskTable();
+            try {
+                JList<String> ProjectList = admin_Projects.getProjectList();
+                JTable TaskTable = admin_Projects.getTaskTable();
 
-            String projectName = (String) ProjectList.getSelectedValue();
-            Project project = AdminModel.getProjectByName(projectName);
-            List<Task> tasks = AdminModel.getTaskToOneProject(project.getName());
+                String projectName = (String) ProjectList.getSelectedValue();
+                Project project = AdminModel.getProjectByName(projectName);
+                List<Task> tasks = AdminModel.getTaskToOneProject(project.getName());
 
-            setProjectInfo(project);
+                setProjectInfo(project);
 
-            DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
-            tableModel.setRowCount(0);
+                DefaultTableModel tableModel = (DefaultTableModel) TaskTable.getModel();
+                tableModel.setRowCount(0);
 
-            tasks.stream().map(task -> {
-                Object rowData[] = new Object[7];
-                rowData[0] = task.getTask_id();
-                rowData[1] = task.getTask_name();
-                rowData[2] = AdminModel.findUserById(task.getEmployee_id()).getName();
-                rowData[3] = task.getEmployee_id();
-                rowData[4] = task.isTask_completed();
-                rowData[5] = AdminModel.findUserById(AdminModel.findUserById(task.getEmployee_id()).getManagerid()).getName();
-                rowData[6] = AdminModel.findUserById(AdminModel.findUserById(task.getEmployee_id()).getManagerid()).getID();
-                return rowData;
-            }).forEachOrdered(rowDate1 -> {
-                tableModel.addRow(rowDate1);
-            });
+                tasks.stream().map(task -> {
+                    Object rowData[] = new Object[7];
+                    rowData[0] = task.getTask_id();
+                    rowData[1] = task.getTask_name();
+                    rowData[2] = AdminModel.findUserById(task.getEmployee_id()).getName();
+                    rowData[3] = task.getEmployee_id();
+                    rowData[4] = task.isTask_completed();
+                    rowData[5] = AdminModel.findUserById(AdminModel.findUserById(task.getEmployee_id()).getManagerid()).getName();
+                    rowData[6] = AdminModel.findUserById(AdminModel.findUserById(task.getEmployee_id()).getManagerid()).getID();
+                    return rowData;
+                }).forEachOrdered(rowDate1 -> {
+                    tableModel.addRow(rowDate1);
+                });
 
-            admin_Projects.setTaskTable(TaskTable);
-
+                admin_Projects.setTaskTable(TaskTable);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Something went wrong please close and reopen this panel", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
-        
+
         private void setProjectInfo(Project project) {
             admin_Projects.setPMName(AdminModel.findUserById(project.getPmId()).getName());
             admin_Projects.setPMID("" + project.getPmId());
@@ -311,16 +315,33 @@ public class AdminController {
                     PersonModel person = PersonModel.preparePersonForDatabase(add_User.getFirstName() + " " + add_User.getLastName(), Integer.parseInt(add_User.getAge()), add_User.getUsername(), add_User.getPassword(), RoleBox.getSelectedItem().toString(), Double.parseDouble(add_User.getSalary()));
 
                     if (RoleBox.getSelectedItem().equals("Project Manager")) {
-                        AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getPassword(), person.getRole(), person.getSalary());
+                        try {
+                            AdminModel.addProjectManager(person.getName(), person.getAge(), person.getUsername(), "" + add_User.getPassword(), person.getRole(), person.getSalary());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Something went wrong while trying to add this user " + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
                         for (PersonModel user : AdminModel.getUsers()) {
                             if (user.getUsername().equals(person.getUsername())) {
-                                AdminModel.createProject(user.getID(), add_User.getProjectName());
+                                try {
+                                    AdminModel.createProject(user.getID(), user.getName()+" project");
+                                    AdminModel.updateProject(user.getID(), add_User.getProjectName());
+                                } catch (SQLException ex) {
+                                    JOptionPane.showMessageDialog(null, "This Project Name Already Exists\n It's set to "+ user.getName()+" project", "INFORMATION", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
                         }
                     } else {
                         PersonModel manager = AdminModel.findUserByName(ManagerName.getSelectedItem().toString());
                         person.setManagerid(manager.getID());
-                        AdminModel.addUser(person);
+                        try {
+                            AdminModel.addUser(person);
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Something went wrong while trying to add this user\n " + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
                     }
                     resetPanelData();
                     JOptionPane.showMessageDialog(null, "This Person has been added successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
@@ -427,7 +448,6 @@ public class AdminController {
                 }
             } catch (Exception a) {
                 JOptionPane.showMessageDialog(null, "Wrong ID.." + a.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-
             }
         }
 
@@ -465,11 +485,23 @@ public class AdminController {
                     PersonModel person = PersonModel.preparePersonForDatabase(update_Users.getFirstName() + " " + update_Users.getLastName(),
                             Integer.parseInt(update_Users.getAge()), update_Users.getUsername(), update_Users.getPassword(), update_Users.getRole(),
                             Double.parseDouble(update_Users.getSalary()));
-
+                    person.setId(Integer.parseInt(update_Users.getID()));
                     if (update_Users.getRole().equals("Project Manager")) {
-                        AdminModel.updateProject(person.getID(), update_Users.getProjectName());
+                        try {
+                            AdminModel.updateProject(Integer.parseInt(update_Users.getID()), update_Users.getProjectName());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "This Project Name Already Exists ", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                     }
-                    AdminModel.UpdateUser(person);
+
+                    try {
+                        AdminModel.UpdateUser(person);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Something went wrong while trying to update" + ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
                     update_Users.resetPanelData();
                     JOptionPane.showMessageDialog(null, "This Employee has been updated successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
 

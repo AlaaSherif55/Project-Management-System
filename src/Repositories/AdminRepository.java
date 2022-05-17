@@ -15,28 +15,28 @@ import java.util.List;
 
 public class AdminRepository {
 
-    public static void createProject(int managerID, String projectName) {
+    public static void createProject(int managerID, String projectName) throws SQLException {
         String insertSql = "INSERT INTO project (dbo.project.p_name, dbo.project.id_PM) VALUES ('" + projectName + "'," + managerID + ")";
         if (!hasProject(managerID)) {
             try {
                 DatabaseQuery.executeInsert(insertSql);
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                throw ex;
             }
         }
     }
 
-    public static void updateProject(int managerid, String projectName) {
-        String updateSql = "UPDATE project SET p_name='" + projectName + "' WHERE id_PM=" + managerid;
+    public static void updateProject(int managerid, String projectName) throws SQLException {
+        String updateSql = "UPDATE project SET p_name= '" + projectName + "' WHERE id_PM= " + managerid;
         try {
             DatabaseQuery.executeUpdate(updateSql);
         } catch (SQLException exception) {
-            exception.printStackTrace();
+            throw exception;
         }
 
     }
 
-    public static boolean hasProject(int managerID) {
+    public static boolean hasProject(int managerID) throws SQLException{
         String selectSql = "SELECT id_PM FROM project";
         try {
             ResultSet resultSet = DatabaseQuery.executeSelect(selectSql);
@@ -47,7 +47,7 @@ public class AdminRepository {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return false;
     }
@@ -133,7 +133,7 @@ public class AdminRepository {
 
     }
 
-    public static Project getProjectByName(String name) {
+    public static Project getProjectByName(String name){
         Project project = null;
         String selectSql = "SELECT * FROM project where p_name='" + name + "'";
         try {
@@ -151,7 +151,7 @@ public class AdminRepository {
 
     }
 
-    public static void addUser(PersonModel user) {
+    public static void addUser(PersonModel user) throws SQLException{
         ResultSet resultSet = null;
         String[] names = user.getName().split(" ");
         String fname = names[0];
@@ -162,7 +162,7 @@ public class AdminRepository {
         try {
             DatabaseQuery.executeSelect(insertSql);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw ex;
         }
     }//add button
 
@@ -191,7 +191,7 @@ public class AdminRepository {
         return tasks;
     }
 
-    public static List<Task> getTaskToOneProject(String projectName) {
+    public static List<Task> getTaskToOneProject(String projectName){
         List<Task> tasks = new ArrayList<>();
 
         int projectID = getProjectByName(projectName).getId_project();
@@ -216,7 +216,7 @@ public class AdminRepository {
         return tasks;
     }
 
-    public static List<Task> getCompletedTaskToOneProject(String projectName) {
+    public static List<Task> getCompletedTaskToOneProject(String projectName){
         List<Task> tasks = new ArrayList<>();
         int projectID = getProjectByName(projectName).getId_project();
         String selectSql = "SELECT * FROM task where id_project=" + projectID + " and completed_task=1";
@@ -307,7 +307,7 @@ public class AdminRepository {
         }
     }
 
-    public static PersonModel findEmployeesUnderManagerByID(int managerid) {
+    public static PersonModel findEmployeesUnderManagerByID(int managerid) throws SQLException{
         PersonModel user = null;
         String selectSql = "SELECT * FROM person WHERE manager_ID=" + managerid;// +pass+"AND username="+userName;
         try {
@@ -328,25 +328,23 @@ public class AdminRepository {
 
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw ex;
         }
 
         return user;
     }
 
-    public static void UpdateUser(PersonModel person) {
+    public static void UpdateUser(PersonModel person) throws SQLException{
         String name = person.getName();
         String[] names = name.split(" ");
         String fname = names[0];
         String lname = names[1];
-        String updateSql = "UPDATE person set fname='" + fname + "',lname='" + lname + "',age=" + person.getAge() + ",salary=" + person.getSalary() + ",password='" + person.getPassword() + "',username='" + person.getUsername() + "',role='" + person.getRole() + "' WHERE id=" + person.getID();
+        String updateSql = "UPDATE person SET fname='" + fname + "',lname='" + lname + "',age=" + person.getAge() + ",salary=" + person.getSalary() + ",password='" + person.getPassword() + "',username='" + person.getUsername() + "',role='" + person.getRole() + "' WHERE id=" + person.getID();
 
         try {
-
             DatabaseQuery.executeUpdate(updateSql);
-
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw ex;
         }
 
     }
@@ -381,7 +379,7 @@ public class AdminRepository {
 
     }
 
-    public static void addProjectManager(String name, int age, String username, String password, String role, double salary) {
+    public static void addProjectManager(String name, int age, String username, String password, String role, double salary) throws SQLException{
         String[] names = name.split(" ");
         String fname = names[0];
         String lname = names[1];
@@ -391,7 +389,7 @@ public class AdminRepository {
         try {
             DatabaseQuery.executeInsert(insertSql);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            throw ex;
         }
     }
 

@@ -45,8 +45,12 @@ public class EmployeeModel extends PersonModel {
          EmployeeRepository.submitCompletedTask(id_task);
     }
 
-    public void requestVacation(Date from, Date to) {
-           EmployeeRepository.requestVacation(from, to, getID());
+    public int requestVacation(Date from, Date to) {
+           return EmployeeRepository.requestVacation(from, to, getID());
+    }
+    
+    public Vacation getVacation() {
+           return EmployeeRepository.getVacation(getID());
     }
 }
 

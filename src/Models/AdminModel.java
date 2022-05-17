@@ -1,5 +1,6 @@
 package Models;
 import Repositories.AdminRepository;
+import java.sql.SQLException;
 import java.util.List;
 
 public class AdminModel extends PersonModel {
@@ -15,11 +16,11 @@ public class AdminModel extends PersonModel {
                 person.getSalary(), person.getManagerid());
     }
     
-    public static void createProject(int managerID,String projectName){
+    public static void createProject(int managerID,String projectName) throws SQLException{
         AdminRepository.createProject(managerID, projectName);
     }
     
-    public static void updateProject(int managerID, String projectName){
+    public static void updateProject(int managerID, String projectName)throws SQLException{
         AdminRepository.updateProject(managerID, projectName);
     }
 
@@ -46,7 +47,7 @@ public class AdminModel extends PersonModel {
         return AdminRepository.getProjectByName(name);
     }
 
-    public static void addUser(PersonModel user) {
+    public static void addUser(PersonModel user) throws SQLException{
         AdminRepository.addUser(user);
     }
 
@@ -74,7 +75,7 @@ public class AdminModel extends PersonModel {
         AdminRepository.deleteUser(id);
     }
 
-    public static void UpdateUser(PersonModel person) {
+    public static void UpdateUser(PersonModel person) throws SQLException{
         AdminRepository.UpdateUser(person);
     }
 
@@ -83,7 +84,7 @@ public class AdminModel extends PersonModel {
     }
 
     public static void addProjectManager(String name, int age, String username, String password, String role,
-            double salary) {
+            double salary) throws SQLException {
         AdminRepository.addProjectManager(name, age, username, password, role, salary);
     }
 

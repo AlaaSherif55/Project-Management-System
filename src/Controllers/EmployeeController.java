@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import Models.EmployeeModel;
 import Models.Penality;
 import Models.Task;
+import Models.Vacation;
 import Views.InternalFrames.EM_ManageTasks;
 import Views.InternalFrames.EM_RequestVacation;
 import Views.InternalFrames.EM_ViewPenalities;
@@ -252,9 +253,14 @@ public class EmployeeController {
             java.sql.Date sqlDate1 = new java.sql.Date(utilDate1.getTime());
             java.util.Date utilDate = new java.util.Date(toCalender.getYearChooser().getValue() - 1900, toCalender.getMonthChooser().getMonth(), toCalender.getDayChooser().getDay());
             java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-            employeeModel.requestVacation(sqlDate1, sqlDate);
-            JOptionPane.showMessageDialog(null, "This vacation has been requested successfully", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-
+            int vacationStatus = employeeModel.requestVacation(sqlDate1, sqlDate);
+            Vacation vacation = employeeModel.getVacation();
+            if(vacationStatus == -1)
+                JOptionPane.showMessageDialog(null, "This vacation has been requested successfully from "+vacation.getVacationStart()+" to "+ vacation.getVacationEnd(), "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+            if(vacationStatus == 1)
+                JOptionPane.showMessageDialog(null, "You already have a vacation request accepted from "+vacation.getVacationStart()+" to "+ vacation.getVacationEnd(), "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            if(vacationStatus == 0)
+                JOptionPane.showMessageDialog(null, "You already have a vacation request on hold from "+vacation.getVacationStart()+" to "+ vacation.getVacationEnd(), "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
         }
 
     }

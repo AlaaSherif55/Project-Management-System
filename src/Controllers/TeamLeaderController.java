@@ -455,10 +455,14 @@ public class TeamLeaderController {
             if (RequestsTable.getSelectedRowCount() == 1) {
                 tableModel.removeRow(RequestsTable.getSelectedRow());
             }
-
-            teamLeaderModel.acceptVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));
+            
+            if(ManageVacationsView.getEmployeeIDInput().equals("")){
+                ManageVacationsView.displayErrorMessage("please select a vacation!");
+            }else{
+                teamLeaderModel.acceptVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));
+                ManageVacationsView.displaySuccessMessage("This vacation has been accepted successfully");
+            }
             ManageVacationsView.resetPanelData();
-            ManageVacationsView.displaySuccessMessage("This vacation has been accepted successfully");
         }
     }
 
@@ -479,10 +483,18 @@ public class TeamLeaderController {
                     tableModel.removeRow(RequestsTable.getSelectedRow());
                 }
             }
-
-            teamLeaderModel.denyVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));
+            
+            if(ManageVacationsView.getEmployeeIDInput().equals("")){
+                ManageVacationsView.displayErrorMessage("please select a vacation!");
+            }else{
+                teamLeaderModel.denyVacation(Integer.parseInt(ManageVacationsView.getEmployeeIDInput()));
+                ManageVacationsView.displaySuccessMessage("This vacation has been denied successfully");
+            }
+                
+            
+                
             ManageVacationsView.resetPanelData();
-            ManageVacationsView.displaySuccessMessage("This vacation has been denied successfully");
+            
         }
     }
 

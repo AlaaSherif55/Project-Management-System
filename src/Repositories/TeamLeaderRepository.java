@@ -142,7 +142,7 @@ public class TeamLeaderRepository {
     }
 
     public static void acceptVacation(int employeeID) {
-        String updateSQL = "update vacation set confirmed='"+true+"' where  employee_id="+employeeID;
+        String updateSQL = "UPDATE vacation SET confirmed='"+true+"' WHERE employee_id="+employeeID;
         try{
             DatabaseQuery.executeUpdate(updateSQL);
         } catch (SQLException ex) {
@@ -153,9 +153,9 @@ public class TeamLeaderRepository {
 
     public static void denyVacation(int employeeID) {
 
-        String deleteSQL = "DELETE FROM vacation WHERE employee_id="+employeeID;
+        String updateSQL = "DELETE FROM vacation WHERE employee_id="+employeeID;
         try{
-            DatabaseQuery.executeDelete(deleteSQL);
+            DatabaseQuery.executeUpdate(updateSQL);
         } catch (SQLException ex) {
             Logger.getLogger(TeamLeaderModel.class.getName()).log(Level.SEVERE, null, ex);
 
