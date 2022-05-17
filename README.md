@@ -5,22 +5,22 @@ It's a project management system that helps you create and manage projects and t
 
 It allows you to do the following:
 
-1-Employee Module
-    a-Enables employee to calculate working hours per month.
-    b-Enables employee to request vacation.
-    c-Enables employee to view penalities.
-    d-Enables employee to view tasks assigned to them.
-    e-Enables employee to check tasks as completed
+1-Employee Module <br><br>
+&nbsp;&nbsp;&nbsp;&nbsp; a-Enables employee to calculate working hours per month.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; b-Enables employee to request vacation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; c-Enables employee to view penalities.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; d-Enables employee to view tasks assigned to them.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; e-Enables employee to check tasks as completed<br>
   
-2-Team Leader Module
-    a-Enables leader to manage employees
-    b-Enables leader to assign tasks
-    c-Enables leader to view completed tasks
+2-Team Leader Module<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp; a-Enables leader to manage employees<br>
+&nbsp;&nbsp;&nbsp;&nbsp; b-Enables leader to assign tasks<br>
+&nbsp;&nbsp;&nbsp;&nbsp; c-Enables leader to view completed tasks<br>
   
-3-Project Manager Module
-    a-Enables PM to view percentage of completion of project.
-    b-Enables PM to make reports to team leader about specific employee.
+3-Project Manager Module<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp; a-Enables PM to view percentage of completion of project.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; b-Enables PM to make reports to team leader about specific employee.<br>
   
-4-Admin Module
-    a-Enables admin to view all projects.
-    b-Enables admin to add / update / delete usere with different roles.
+4-Admin Module<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp; a-Enables admin to view all projects.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; b-Enables admin to add / update / delete usere with different roles.<br>
